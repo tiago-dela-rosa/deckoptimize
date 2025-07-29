@@ -21,7 +21,6 @@ export interface ExampleConfig {
 export interface PrebuiltExample {
   id: string
   name: string
-  description: string
   config: ExampleConfig
 }
 
