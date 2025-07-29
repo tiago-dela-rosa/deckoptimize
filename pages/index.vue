@@ -370,7 +370,6 @@ const prebuiltExamples = ref(examples)
 
 watch(probability, (newResult) => {
   if(newResult){
-    console.log('novo resultado!', newResult)
     isLoading.value = false
   }
 })
@@ -379,14 +378,12 @@ watch(probability, (newResult) => {
 watch(hasSharedUrl, (newValue) => {
   if (newValue) {
     isLoading.value = true
-    console.log('Shared URL detected, showing loading state')
   }
 }, { immediate: true })
 
 // Watch for shared data changes and trigger loading
 watch(sharedUrlData, (newData) => {
   if (newData && hasSharedUrl.value) {
-    console.log('Shared data available, starting to load')
     loadSharedData(newData)
   }
 }, { immediate: true })
