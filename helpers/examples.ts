@@ -32,7 +32,7 @@ export const prebuiltExamples: PrebuiltExample[] = [
       totalCards: 40,
       handSize: 5,
       groups: [
-        { name: "Hand Traps", copies: 18, minNeeded: 1, maxNeeded: 3 },
+        { name: "Hand Traps", copies: 18, minNeeded: 1, maxNeeded: 5 },
       ]
     }
   },  
@@ -67,7 +67,7 @@ export const prebuiltExamples: PrebuiltExample[] = [
       groups: [
         { name: "Vanquish Soul Hollie Sue", copies: 3, minNeeded: 1, maxNeeded: 3 },
         { name: "Other Vanquish Soul", copies: 15, minNeeded: 1, maxNeeded: 15 },
-        { name: "Fire/Dark Monster", copies: 19, minNeeded: 1, maxNeeded: 4 }
+        { name: "Fire/Dark Monster", copies: 19, minNeeded: 2, maxNeeded: 4 }
       ]
     }
   },
