@@ -204,13 +204,11 @@ onMounted(() => {
 const emit = defineEmits<{
   'add-group': []
   'remove-group': [index: number]
-  'update-maximum-on-copies-change': [group: CardGroupWithId]
   'calculate-probability': []
   'toggle-tooltip': [id: string]
 }>()
 
 function handleCopiesChange(group: CardGroupWithId) {
-  emit('update-maximum-on-copies-change', group)
   emit('calculate-probability')
 }
 

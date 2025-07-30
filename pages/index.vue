@@ -34,7 +34,6 @@
           :active-tooltip="activeTooltip"
           @add-group="addGroup"
           @remove-group="removeGroup"
-          @update-maximum-on-copies-change="updateMaximumOnCopiesChange"
           @calculate-probability="calculateProbabilityAndUpdate"
           @toggle-tooltip="toggleTooltip"
         />
@@ -68,7 +67,7 @@ const hasSharedUrl = useState('hasSharedUrl', () => false)
 const sharedUrlData = useState('sharedUrlData', () => null)
 
 // Composables
-const { deckConfig, cardGroups, assignedCards, addGroup, removeGroup, updateMaximumOnCopiesChange, decrementTotal, incrementTotal, decrementHand, incrementHand, updateTotal, updateHand, loadSharedData } = useDeckState()
+const { deckConfig, cardGroups, assignedCards, addGroup, removeGroup, decrementTotal, incrementTotal, decrementHand, incrementHand, updateTotal, updateHand, loadSharedData } = useDeckState()
 const { calculateProbability, getConsistencyRating, getConsistencyClasses, getProbabilityColorClass, getProgressBarClass } = useProbabilityCalculator()
 const { showCopyNotification, shareResults } = useSharedUrl()
 const { activeTooltip, toggleTooltip, setupClickOutside } = useTooltips()

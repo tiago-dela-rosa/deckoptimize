@@ -45,11 +45,6 @@ export function useDeckState() {
     }
   }
 
-  function updateMaximumOnCopiesChange(group: CardGroupWithId) {
-    if (group.copies !== null && group.copies !== undefined && group.copies > 0) {
-      group.maxNeeded = group.copies
-    }
-  }
 
   function decrementTotal() {
     if (deckConfig.value.totalCards > 1) {
@@ -108,7 +103,6 @@ export function useDeckState() {
     canCalculate,
     addGroup,
     removeGroup,
-    updateMaximumOnCopiesChange,
     decrementTotal,
     incrementTotal,
     decrementHand,
