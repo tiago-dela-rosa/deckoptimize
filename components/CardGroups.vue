@@ -46,7 +46,21 @@
               <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Cards Used</label>
             </template>
             <template #content>
+              <IncrementControl
+                v-if="isMobile"
+                :value="group.copies || 0"
+                :min="0"
+                :max="totalCards"
+                :input-id="`copies-${group.id}`"
+                title="Number of copies in deck"
+                :decrement-disabled="(group.copies || 0) <= 0"
+                :increment-disabled="(group.copies || 0) >= totalCards"
+                @increment="incrementCopies(group)"
+                @decrement="decrementCopies(group)"
+                @update:value="updateCopies(group, $event)"
+              />
               <input 
+                v-else
                 v-model.number="group.copies" 
                 type="number"
                 :min="0" 
@@ -71,7 +85,21 @@
               <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Minimum</label>
             </template>
             <template #content>
+              <IncrementControl
+                v-if="isMobile"
+                :value="group.minNeeded || 0"
+                :min="0"
+                :max="group.copies || 0"
+                :input-id="`minimum-${group.id}`"
+                title="Minimum cards needed in opening hand"
+                :decrement-disabled="(group.minNeeded || 0) <= 0"
+                :increment-disabled="(group.minNeeded || 0) >= (group.copies || 0)"
+                @increment="incrementMinimum(group)"
+                @decrement="decrementMinimum(group)"
+                @update:value="updateMinimum(group, $event)"
+              />
               <input 
+                v-else
                 v-model.number="group.minNeeded" 
                 type="number"
                 :min="0" 
@@ -96,7 +124,21 @@
               <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Maximum</label>
             </template>
             <template #content>
+              <IncrementControl
+                v-if="isMobile"
+                :value="group.maxNeeded || 0"
+                :min="group.minNeeded || 0"
+                :max="group.copies || 0"
+                :input-id="`maximum-${group.id}`"
+                title="Maximum cards needed in opening hand"
+                :decrement-disabled="(group.maxNeeded || 0) <= (group.minNeeded || 0)"
+                :increment-disabled="(group.maxNeeded || 0) >= (group.copies || 0)"
+                @increment="incrementMaximum(group)"
+                @decrement="decrementMaximum(group)"
+                @update:value="updateMaximum(group, $event)"
+              />
               <input 
+                v-else
                 v-model.number="group.maxNeeded" 
                 type="number"
                 :min="group.minNeeded || 0" 
@@ -134,8 +176,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import type { CardGroupWithId } from '~/interfaces'
 import TooltipWrapper from '~/components/ui/TooltipWrapper.vue'
+import IncrementControl from '~/components/ui/IncrementControl.vue'
 
 interface Props {
   cardGroups: CardGroupWithId[]
@@ -143,7 +187,19 @@ interface Props {
   activeTooltip: string | null
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+// Mobile detection
+const isMobile = ref(false)
+
+function updateScreenSize() {
+  isMobile.value = window.innerWidth < 768
+}
+
+onMounted(() => {
+  updateScreenSize()
+  window.addEventListener('resize', updateScreenSize)
+})
 
 const emit = defineEmits<{
   'add-group': []
@@ -161,5 +217,69 @@ function handleCopiesChange(group: CardGroupWithId) {
 function handleRemoveGroup(index: number) {
   emit('remove-group', index)
   emit('calculate-probability')
+}
+
+// Increment/Decrement functions for mobile controls
+function incrementCopies(group: CardGroupWithId) {
+  if (group.copies < props.totalCards) {
+    group.copies++
+    handleCopiesChange(group)
+  }
+}
+
+function decrementCopies(group: CardGroupWithId) {
+  if (group.copies > 0) {
+    group.copies--
+    handleCopiesChange(group)
+  }
+}
+
+function updateCopies(group: CardGroupWithId, value: number) {
+  if (value >= 0 && value <= props.totalCards) {
+    group.copies = value
+    handleCopiesChange(group)
+  }
+}
+
+function incrementMinimum(group: CardGroupWithId) {
+  if (group.minNeeded < (group.copies || 0)) {
+    group.minNeeded++
+    emit('calculate-probability')
+  }
+}
+
+function decrementMinimum(group: CardGroupWithId) {
+  if (group.minNeeded > 0) {
+    group.minNeeded--
+    emit('calculate-probability')
+  }
+}
+
+function updateMinimum(group: CardGroupWithId, value: number) {
+  if (value >= 0 && value <= (group.copies || 0)) {
+    group.minNeeded = value
+    emit('calculate-probability')
+  }
+}
+
+function incrementMaximum(group: CardGroupWithId) {
+  if (group.maxNeeded < (group.copies || 0)) {
+    group.maxNeeded++
+    emit('calculate-probability')
+  }
+}
+
+function decrementMaximum(group: CardGroupWithId) {
+  if (group.maxNeeded > (group.minNeeded || 0)) {
+    group.maxNeeded--
+    emit('calculate-probability')
+  }
+}
+
+function updateMaximum(group: CardGroupWithId, value: number) {
+  if (value >= (group.minNeeded || 0) && value <= (group.copies || 0)) {
+    group.maxNeeded = value
+    emit('calculate-probability')
+  }
 }
 </script>
