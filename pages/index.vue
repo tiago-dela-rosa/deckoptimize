@@ -1,13 +1,11 @@
 <template>
-  <div class="min-h-screen bg-sakai-gradient dark:bg-sakai-dark-gradient transition-colors duration-300">
+  <div>
     <LoadingScreen :is-loading="isLoading" />
     
     <CopyNotification :show-notification="showCopyNotification" />
 
     <!-- Main Content -->
-    <div v-show="!isLoading" class="min-h-screen bg-sakai-gradient dark:bg-sakai-dark-gradient transition-colors duration-300">
-      <AppHeader />
-
+    <div v-show="!isLoading">
       <div class="max-w-4xl mx-auto p-4 space-y-4">
 
         <DeckConfiguration
@@ -56,7 +54,6 @@ import { ref, onMounted, watch } from 'vue'
 import type { PrebuiltExample } from '~/interfaces'
 import LoadingScreen from '~/components/LoadingScreen.vue'
 import CopyNotification from '~/components/CopyNotification.vue'
-import AppHeader from '~/components/AppHeader.vue'
 import DeckConfiguration from '~/components/DeckConfiguration.vue'
 import QuickExamples from '~/components/QuickExamples.vue'
 import CardGroups from '~/components/CardGroups.vue'
