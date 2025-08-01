@@ -1,4 +1,5 @@
 import type { CardGroupWithId, DeckConfig } from '~/interfaces'
+import { trackGroupAdded } from './useDeckState.events'
 
 export function useDeckState() {
   const deckConfig = ref<DeckConfig>({
@@ -29,14 +30,20 @@ export function useDeckState() {
            cardGroups.value.some(group => group.copies > 0 && (group.minNeeded > 0 || group.maxNeeded > 0))
   })
 
-  function addGroup() {
-    cardGroups.value.push({
+  function addGroup(source: 'button' | 'example' = 'button') {
+    const newGroup = {
       id: nextGroupId++,
       name: '',
       copies: 0,
       minNeeded: 1,
       maxNeeded: 0
-    })
+    }
+    
+    cardGroups.value.push(newGroup)
+    
+    if (source === 'button') {
+      trackGroupAdded(deckConfig.value, newGroup)
+    }
   }
 
   function removeGroup(index: number) {

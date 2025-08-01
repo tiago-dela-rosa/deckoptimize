@@ -55,9 +55,10 @@ import type { PrebuiltExample } from '~/interfaces'
 import LoadingScreen from '~/components/LoadingScreen.vue'
 import CopyNotification from '~/components/CopyNotification.vue'
 import DeckConfiguration from '~/components/DeckConfiguration.vue'
-import QuickExamples from '~/components/QuickExamples.vue'
+import QuickExamples from '~/components/QuickExamples/QuickExamples.vue'
 import CardGroups from '~/components/CardGroups.vue'
-import ProbabilityResults from '~/components/ProbabilityResults.vue'
+import ProbabilityResults from '~/components/ProbabilityResults/ProbabilityResults.vue'
+import { trackShareButtonClicked } from '~/components/ProbabilityResults/probabilityResults.events'
 
 // Get shared URL state from middleware
 const hasSharedUrl = useState('hasSharedUrl', () => false)
@@ -133,6 +134,7 @@ watch([() => deckConfig.value.totalCards, () => deckConfig.value.handSize], () =
 })
 
 function handleShareResults() {
+  trackShareButtonClicked(deckConfig.value, cardGroups.value, probability.value || 0)
   shareResults(deckConfig.value, cardGroups.value)
 }
 
