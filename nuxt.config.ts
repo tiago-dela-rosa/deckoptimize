@@ -1,7 +1,27 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxtjs/tailwindcss', 'nuxt-umami'],
+  
+  runtimeConfig: {
+    public: {
+      umami: {
+        host: process.env.UMAMI_HOST || '',
+        id: process.env.UMAMI_ID || '',
+      }
+    }
+  },
+  umami: {
+    host: process.env.UMAMI_HOST || '',
+    id: process.env.UMAMI_ID || '',
+    autoTrack: true,
+    cache: false,
+    useDirective: true,
+    logErrors: true,        
+    // Allow localhost for testing
+    ignoreLocalhost: true,
+    enableTracker: true,
+  },
   app: {
     head: {
       title: 'Deck Optimize - Card Game Probability Calculator',
