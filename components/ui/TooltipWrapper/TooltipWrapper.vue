@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <slot name="label" />
       <button 
-        @click="$emit('toggle-tooltip', tooltipId)" 
+        @click="handleTooltipClick" 
         data-tooltip-trigger 
         class="text-sakai-text-secondary hover:text-sakai-primary transition-colors"
       >
@@ -23,14 +23,22 @@
 </template>
 
 <script setup lang="ts">
+import { trackTooltipViewed } from './tooltipWrapper.events'
+
 interface Props {
   tooltipId: string
   tooltipText: string
   isActive: boolean
 }
 
-defineProps<Props>()
-defineEmits<{
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
   'toggle-tooltip': [id: string]
 }>()
+
+function handleTooltipClick() {
+  !props.isActive && trackTooltipViewed(props.tooltipId)
+  emit('toggle-tooltip', props.tooltipId)
+}
 </script>

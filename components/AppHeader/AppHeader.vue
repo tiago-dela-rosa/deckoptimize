@@ -19,35 +19,30 @@
 </template>
 
 <script setup lang="ts">
+import { trackThemeToggled } from './appHeader.events'
+
 const isDark = ref(false)
 
 function toggleDarkMode() {
+  const fromTheme = isDark.value ? 'dark' : 'light'
+  const toTheme = isDark.value ? 'light' : 'dark'
+  
+  trackThemeToggled(fromTheme, toTheme)
+  
   isDark.value = !isDark.value
-  if (isDark.value) {
-    document.documentElement.classList.add('dark')
-    localStorage.setItem('darkMode', 'true')
-  } else {
-    document.documentElement.classList.remove('dark')
-    localStorage.setItem('darkMode', 'false')
-  }
+  isDark.value ? 
+    (document.documentElement.classList.add('dark'), localStorage.setItem('darkMode', 'true')) :
+    (document.documentElement.classList.remove('dark'), localStorage.setItem('darkMode', 'false'))
 }
 
 onMounted(() => {
-  // Initialize dark mode from localStorage
   const savedDarkMode = localStorage.getItem('darkMode')
-  if (savedDarkMode === 'true') {
-    isDark.value = true
-    document.documentElement.classList.add('dark')
-  } else if (savedDarkMode === 'false') {
-    isDark.value = false
-    document.documentElement.classList.remove('dark')
-  } else {
-    // Default to system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    isDark.value = prefersDark
-    if (prefersDark) {
-      document.documentElement.classList.add('dark')
-    }
-  }
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  
+  isDark.value = savedDarkMode === 'true' ? true : 
+                 savedDarkMode === 'false' ? false : prefersDark
+  
+  isDark.value ? document.documentElement.classList.add('dark') : 
+                 document.documentElement.classList.remove('dark')
 })
 </script>

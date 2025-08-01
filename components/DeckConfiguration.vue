@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import type { DeckConfig } from '~/interfaces'
 import IncrementControl from '~/components/ui/IncrementControl.vue'
-import TooltipWrapper from '~/components/ui/TooltipWrapper.vue'
+import TooltipWrapper from '~/components/ui/TooltipWrapper/TooltipWrapper.vue'
 
 interface Props {
   deckConfig: DeckConfig

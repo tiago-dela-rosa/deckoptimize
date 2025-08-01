@@ -178,7 +178,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { CardGroupWithId } from '~/interfaces'
-import TooltipWrapper from '~/components/ui/TooltipWrapper.vue'
+import TooltipWrapper from '~/components/ui/TooltipWrapper/TooltipWrapper.vue'
 import IncrementControl from '~/components/ui/IncrementControl.vue'
 
 interface Props {

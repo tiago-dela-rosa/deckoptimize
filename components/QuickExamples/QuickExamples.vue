@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { prebuiltExamples as examples, getExampleById } from '~/helpers/examples'
 import type { PrebuiltExample } from '~/interfaces'
+import { trackExampleSelected } from './quickExamples.events'
 
 const selectedExample = ref('')
 const prebuiltExamples = ref(examples)
@@ -41,11 +42,11 @@ const emit = defineEmits<{
 function handleExampleChange(exampleId: string) {
   const example = getExampleById(exampleId)
   if (example) {
+    trackExampleSelected(example)
     emit('load-example', example)
   }
 }
 
-// Watch for external changes to reset selection
 defineExpose({
   resetSelection: () => {
     selectedExample.value = ''
