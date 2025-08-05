@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Deck Optimize",
+    "darkMode": {
+      "switchToLight": "Switch to light mode",
+      "switchToDark": "Switch to dark mode"
+    }
+  },
+  "deckConfig": {
+    "title": "Deck Configuration",
+    "totalCards": {
+      "label": "Total Cards in Deck",
+      "tooltip": "Total number of cards in your deck",
+      "title": "Total number of cards in your deck"
+    },
+    "handSize": {
+      "label": "Opening Hand Size",
+      "tooltip": "Number of cards you draw at the start",
+      "title": "Number of cards you draw at the start"
+    },
+    "cardsAssigned": "Cards Assigned: {assigned} / {total}"
+  },
+  "examples": {
+    "title": "Quick Examples",
+    "selectPlaceholder": "Choose a Prebuilt Example",
+    "description": "Select an example to automatically fill the form with common deck scenarios",
+    "items": {
+      "empty": "Blank",
+      "two-card-combo": "Allure of Darkness plus an dark monster",
+      "minimum-desired": "At least one handtrap in opening hand",
+      "exactly-desired": "Exactly three handtraps in opening hand",
+      "grass-in-60": "Grass Looks Greener in a sixty card deck",
+      "hollie-sue-enable": "Hollie Sue turn zero combo",
+      "one-copy-playset": "Open with one copy from a three-card playset",
+      "two-limited": "Two limited cards"
+    }
+  },
+  "cardGroups": {
+    "title": "Card Groups",
+    "groupName": {
+      "label": "Group Name",
+      "placeholder": "Group name (e.g., Removal)",
+      "tooltip": "Give this group a descriptive name"
+    },
+    "cardsUsed": {
+      "label": "Cards Used",
+      "placeholder": "0",
+      "tooltip": "How many copies of this group are in your deck",
+      "title": "Number of copies in deck"
+    },
+    "minimum": {
+      "label": "Minimum",
+      "placeholder": "1",
+      "tooltip": "Minimum cards needed in opening hand",
+      "title": "Minimum cards needed in opening hand"
+    },
+    "maximum": {
+      "label": "Maximum",
+      "placeholder": "0",
+      "tooltip": "Maximum cards needed in opening hand",
+      "title": "Maximum cards needed in opening hand"
+    },
+    "addGroup": "Add Group"
+  },
+  "results": {
+    "chanceDescription": "Chance of drawing your desired combination",
+    "shareButton": "Share Results"
+  },
+  "consistency": {
+    "excellent": "⭐ Excellent probability",
+    "veryGood": "✨ Very good probability",
+    "good": "👍 Good probability",
+    "fair": "⚠️ Fair probability",
+    "low": "❌ Low probability"
+  },
+  "loading": {
+    "title": "Loading shared configuration...",
+    "subtitle": "Decoding deck parameters"
+  },
+  "notification": {
+    "linkCopied": "Link copied to clipboard!"
+  }
+}

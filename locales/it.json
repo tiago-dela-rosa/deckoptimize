@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Deck Optimize",
+    "darkMode": {
+      "switchToLight": "Passa alla modalità chiara",
+      "switchToDark": "Passa alla modalità scura"
+    }
+  },
+  "deckConfig": {
+    "title": "Configurazione del Mazzo",
+    "totalCards": {
+      "label": "Totale Carte nel Mazzo",
+      "tooltip": "Numero totale di carte nel tuo mazzo",
+      "title": "Numero totale di carte nel tuo mazzo"
+    },
+    "handSize": {
+      "label": "Dimensione Mano Iniziale",
+      "tooltip": "Numero di carte che peschi all'inizio",
+      "title": "Numero di carte che peschi all'inizio"
+    },
+    "cardsAssigned": "Carte Assegnate: {assigned} / {total}"
+  },
+  "examples": {
+    "title": "Esempi Rapidi",
+    "selectPlaceholder": "Scegli un Esempio Predefinito",
+    "description": "Seleziona un esempio per riempire automaticamente il modulo con scenari comuni di mazzo",
+    "items": {
+      "empty": "Vuoto",
+      "two-card-combo": "Allure of Darkness più un mostro oscuro",
+      "minimum-desired": "Almeno una handtrap nella mano iniziale",
+      "exactly-desired": "Esattamente tre handtraps nella mano iniziale",
+      "grass-in-60": "Grass Looks Greener in un mazzo di sessanta carte",
+      "hollie-sue-enable": "Combo turno zero Hollie Sue",
+      "one-copy-playset": "Aprire con una copia da un playset di tre carte",
+      "two-limited": "Due carte limitate"
+    }
+  },
+  "cardGroups": {
+    "title": "Gruppi di Carte",
+    "groupName": {
+      "label": "Nome del Gruppo",
+      "placeholder": "Nome del gruppo (es. Handtraps)",
+      "tooltip": "Dai a questo gruppo un nome descrittivo"
+    },
+    "cardsUsed": {
+      "label": "In Uso",
+      "placeholder": "0",
+      "tooltip": "Quante copie di questo gruppo sono nel tuo mazzo",
+      "title": "Numero di copie nel mazzo"
+    },
+    "minimum": {
+      "label": "Minimo",
+      "placeholder": "1",
+      "tooltip": "Carte minime necessarie nella mano iniziale",
+      "title": "Carte minime necessarie nella mano iniziale"
+    },
+    "maximum": {
+      "label": "Massimo",
+      "placeholder": "0",
+      "tooltip": "Carte massime necessarie nella mano iniziale",
+      "title": "Carte massime necessarie nella mano iniziale"
+    },
+    "addGroup": "Aggiungi Gruppo"
+  },
+  "results": {
+    "chanceDescription": "Possibilità di pescare la tua combinazione desiderata",
+    "shareButton": "Condividi Risultati"
+  },
+  "consistency": {
+    "excellent": "⭐ Probabilità eccellente",
+    "veryGood": "✨ Probabilità molto buona",
+    "good": "👍 Buona probabilità",
+    "fair": "⚠️ Probabilità discreta",
+    "low": "❌ Bassa probabilità"
+  },
+  "loading": {
+    "title": "Caricamento configurazione condivisa...",
+    "subtitle": "Decodifica parametri del mazzo"
+  },
+  "notification": {
+    "linkCopied": "Link copiato negli appunti!"
+  }
+}

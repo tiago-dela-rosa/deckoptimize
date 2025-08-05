@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Deck Optimize",
+    "darkMode": {
+      "switchToLight": "Zu hellem Modus wechseln",
+      "switchToDark": "Zu dunklem Modus wechseln"
+    }
+  },
+  "deckConfig": {
+    "title": "Deck-Konfiguration",
+    "totalCards": {
+      "label": "Gesamtanzahl Karten im Deck",
+      "tooltip": "Gesamtanzahl der Karten in Ihrem Deck",
+      "title": "Gesamtanzahl der Karten in Ihrem Deck"
+    },
+    "handSize": {
+      "label": "Starthandgröße",
+      "tooltip": "Anzahl der Karten, die Sie zu Beginn ziehen",
+      "title": "Anzahl der Karten, die Sie zu Beginn ziehen"
+    },
+    "cardsAssigned": "Zugewiesene Karten: {assigned} / {total}"
+  },
+  "examples": {
+    "title": "Schnelle Beispiele",
+    "selectPlaceholder": "Vorgefertigtes Beispiel wählen",
+    "description": "Wählen Sie ein Beispiel aus, um das Formular automatisch mit häufigen Deck-Szenarien zu füllen",
+    "items": {
+      "empty": "Leer",
+      "two-card-combo": "Allure of Darkness plus ein dunkles Monster",
+      "minimum-desired": "Mindestens eine Handtrap in der Starthand",
+      "exactly-desired": "Genau drei Handtraps in der Starthand",
+      "grass-in-60": "Grass Looks Greener in einem Sechzig-Karten-Deck",
+      "hollie-sue-enable": "Hollie Sue Nullter-Zug-Combo",
+      "one-copy-playset": "Mit einer Kopie aus einem Drei-Karten-Playset öffnen",
+      "two-limited": "Zwei limitierte Karten"
+    }
+  },
+  "cardGroups": {
+    "title": "Kartengruppen",
+    "groupName": {
+      "label": "Gruppenname",
+      "placeholder": "Gruppenname (z.B. Handtraps)",
+      "tooltip": "Geben Sie dieser Gruppe einen beschreibenden Namen"
+    },
+    "cardsUsed": {
+      "label": "Im Deck",
+      "placeholder": "0",
+      "tooltip": "Wie viele Kopien dieser Gruppe sind in Ihrem Deck",
+      "title": "Anzahl der Kopien im Deck"
+    },
+    "minimum": {
+      "label": "Minimum",
+      "placeholder": "1",
+      "tooltip": "Mindestanzahl benötigter Karten in der Starthand",
+      "title": "Mindestanzahl benötigter Karten in der Starthand"
+    },
+    "maximum": {
+      "label": "Maximum",
+      "placeholder": "0",
+      "tooltip": "Höchstanzahl benötigter Karten in der Starthand",
+      "title": "Höchstanzahl benötigter Karten in der Starthand"
+    },
+    "addGroup": "Gruppe hinzufügen"
+  },
+  "results": {
+    "chanceDescription": "Chance, Ihre gewünschte Kombination zu ziehen",
+    "shareButton": "Ergebnisse teilen"
+  },
+  "consistency": {
+    "excellent": "⭐ Ausgezeichnete Wahrscheinlichkeit",
+    "veryGood": "✨ Sehr gute Wahrscheinlichkeit",
+    "good": "👍 Gute Wahrscheinlichkeit",
+    "fair": "⚠️ Angemessene Wahrscheinlichkeit",
+    "low": "❌ Niedrige Wahrscheinlichkeit"
+  },
+  "loading": {
+    "title": "Geteilte Konfiguration wird geladen...",
+    "subtitle": "Deck-Parameter werden dekodiert"
+  },
+  "notification": {
+    "linkCopied": "Link in die Zwischenablage kopiert!"
+  }
+}
