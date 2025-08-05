@@ -1,8 +1,9 @@
 name: Claude Code Review
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  # Disabled - remove this comment to re-enable
+  # pull_request:
+  #   types: [opened, synchronize]
     # Optional: Only run on specific file changes
     # paths:
     #   - "src/**/*.ts"
