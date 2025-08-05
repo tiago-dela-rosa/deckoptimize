@@ -2,7 +2,7 @@
   <div class="bg-sakai-surface dark:bg-sakai-surface-800 rounded-xl shadow-lg border border-sakai-surface-200 dark:border-sakai-surface-600 p-4">
     <div class="flex items-center gap-2 text-sakai-text-primary dark:text-white font-semibold text-lg mb-3">
       <Icon name="heroicons:list-bullet" class="w-6 h-6 text-sakai-primary" />
-      <span>Card Groups</span>
+      <span>{{ $t('cardGroups.title') }}</span>
     </div>
     
     <div class="space-y-4">
@@ -15,18 +15,18 @@
         <div class="relative md:col-span-2">
           <TooltipWrapper
             :tooltip-id="`groupName${group.id}`"
-            tooltip-text="Give this group a descriptive name"
+            :tooltip-text="$t('cardGroups.groupName.tooltip')"
             :is-active="activeTooltip === `groupName${group.id}`"
             @toggle-tooltip="$emit('toggle-tooltip', $event)"
           >
             <template #label>
-              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Group Name</label>
+              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">{{ $t('cardGroups.groupName.label') }}</label>
             </template>
             <template #content>
               <input 
                 v-model="group.name" 
                 type="text"
-                placeholder="Group name (e.g., Removal)"
+                :placeholder="$t('cardGroups.groupName.placeholder')"
                 class="block w-full rounded-lg border-sakai-surface-300 dark:border-sakai-surface-600 bg-sakai-surface dark:bg-sakai-surface-800 focus:border-sakai-primary focus:ring-sakai-primary dark:text-white placeholder-sakai-text-secondary dark:placeholder-sakai-surface-400"
                 @input="$emit('calculate-probability')"
               />
@@ -38,12 +38,12 @@
         <div class="relative">
           <TooltipWrapper
             :tooltip-id="`cardsUsed${group.id}`"
-            tooltip-text="How many copies of this group are in your deck"
+            :tooltip-text="$t('cardGroups.cardsUsed.tooltip')"
             :is-active="activeTooltip === `cardsUsed${group.id}`"
             @toggle-tooltip="$emit('toggle-tooltip', $event)"
           >
             <template #label>
-              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Cards Used</label>
+              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">{{ $t('cardGroups.cardsUsed.label') }}</label>
             </template>
             <template #content>
               <IncrementControl
@@ -52,7 +52,7 @@
                 :min="0"
                 :max="totalCards"
                 :input-id="`copies-${group.id}`"
-                title="Number of copies in deck"
+                :title="$t('cardGroups.cardsUsed.title')"
                 :decrement-disabled="(group.copies || 0) <= 0"
                 :increment-disabled="(group.copies || 0) >= totalCards"
                 @increment="incrementCopies(group)"
@@ -65,7 +65,7 @@
                 type="number"
                 :min="0" 
                 :max="totalCards"
-                placeholder="0"
+                :placeholder="$t('cardGroups.cardsUsed.placeholder')"
                 class="block w-full rounded-lg border-sakai-surface-300 dark:border-sakai-surface-600 bg-sakai-surface dark:bg-sakai-surface-800 text-center focus:border-sakai-primary focus:ring-sakai-primary dark:text-white placeholder-sakai-text-secondary dark:placeholder-sakai-surface-400"
                 @input="handleCopiesChange(group)"
               />
@@ -77,12 +77,12 @@
         <div class="relative">
           <TooltipWrapper
             :tooltip-id="`minimum${group.id}`"
-            tooltip-text="Minimum cards needed in opening hand"
+            :tooltip-text="$t('cardGroups.minimum.tooltip')"
             :is-active="activeTooltip === `minimum${group.id}`"
             @toggle-tooltip="$emit('toggle-tooltip', $event)"
           >
             <template #label>
-              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Minimum</label>
+              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">{{ $t('cardGroups.minimum.label') }}</label>
             </template>
             <template #content>
               <IncrementControl
@@ -91,7 +91,7 @@
                 :min="0"
                 :max="group.copies || 0"
                 :input-id="`minimum-${group.id}`"
-                title="Minimum cards needed in opening hand"
+                :title="$t('cardGroups.minimum.title')"
                 :decrement-disabled="(group.minNeeded || 0) <= 0"
                 :increment-disabled="(group.minNeeded || 0) >= (group.copies || 0)"
                 @increment="incrementMinimum(group)"
@@ -104,7 +104,7 @@
                 type="number"
                 :min="0" 
                 :max="group.copies || 0"
-                placeholder="1"
+                :placeholder="$t('cardGroups.minimum.placeholder')"
                 class="block w-full rounded-lg border-sakai-surface-300 dark:border-sakai-surface-600 bg-sakai-surface dark:bg-sakai-surface-800 text-center focus:border-sakai-primary focus:ring-sakai-primary dark:text-white placeholder-sakai-text-secondary dark:placeholder-sakai-surface-400"
                 @input="$emit('calculate-probability')"
               />
@@ -116,12 +116,12 @@
         <div class="relative">
           <TooltipWrapper
             :tooltip-id="`maximum${group.id}`"
-            tooltip-text="Maximum cards needed in opening hand"
+            :tooltip-text="$t('cardGroups.maximum.tooltip')"
             :is-active="activeTooltip === `maximum${group.id}`"
             @toggle-tooltip="$emit('toggle-tooltip', $event)"
           >
             <template #label>
-              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">Maximum</label>
+              <label class="text-sm md:text-sm text-sakai-text-secondary dark:text-sakai-surface-300 font-medium">{{ $t('cardGroups.maximum.label') }}</label>
             </template>
             <template #content>
               <IncrementControl
@@ -130,7 +130,7 @@
                 :min="group.minNeeded || 0"
                 :max="group.copies || 0"
                 :input-id="`maximum-${group.id}`"
-                title="Maximum cards needed in opening hand"
+                :title="$t('cardGroups.maximum.title')"
                 :decrement-disabled="(group.maxNeeded || 0) <= (group.minNeeded || 0)"
                 :increment-disabled="(group.maxNeeded || 0) >= (group.copies || 0)"
                 @increment="incrementMaximum(group)"
@@ -143,7 +143,7 @@
                 type="number"
                 :min="group.minNeeded || 0" 
                 :max="group.copies || 0"
-                placeholder="0"
+                :placeholder="$t('cardGroups.maximum.placeholder')"
                 class="block w-full rounded-lg border-sakai-surface-300 dark:border-sakai-surface-600 bg-sakai-surface dark:bg-sakai-surface-800 text-center focus:border-sakai-primary focus:ring-sakai-primary dark:text-white placeholder-sakai-text-secondary dark:placeholder-sakai-surface-400"
                 @input="$emit('calculate-probability')"
               />
@@ -169,7 +169,7 @@
         class="bg-sakai-primary hover:bg-sakai-primary-dark text-white font-semibold py-3 px-4 rounded-lg shadow-md transition-all duration-200 w-full flex items-center justify-center space-x-2"
       >
         <Icon name="heroicons:plus" class="w-5 h-5" />
-        <span>Add Group</span>
+        <span>{{ $t('cardGroups.addGroup') }}</span>
       </button>
     </div>
   </div>
