@@ -5,7 +5,7 @@
       {{ (probability * 100).toFixed(2) }}%
     </div>
     <div class="text-lg text-sakai-text-secondary dark:text-sakai-surface-300 mb-6">
-      Chance of drawing your desired combination
+      {{ $t('results.chanceDescription') }}
     </div>
     
     <div class="w-full bg-sakai-surface-200 dark:bg-sakai-surface-600 rounded-full h-3 overflow-hidden mb-6">
@@ -27,7 +27,7 @@
         class="inline-flex items-center gap-2 px-4 py-2 bg-sakai-primary hover:bg-sakai-primary-dark text-white font-medium text-sm rounded-lg transition-colors duration-200"
       >
         <Icon name="heroicons:share" class="w-4 h-4" />
-        Share Results
+        {{ $t('results.shareButton') }}
       </button>
     </div>
   </div>
