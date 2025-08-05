@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxtjs/tailwindcss', 'nuxt-umami'],
+  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxtjs/tailwindcss', 'nuxt-umami', '@nuxtjs/i18n'],
   runtimeConfig: {
     public: {
       umami: {
@@ -20,6 +20,28 @@ export default defineNuxtConfig({
     // Allow localhost for testing
     ignoreLocalhost: true,
     enableTracker: true,
+  },
+  
+  i18n: {
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'pt', name: 'Português', file: 'pt.json' },
+      { code: 'fr', name: 'Français', file: 'fr.json' },
+      { code: 'es', name: 'Español', file: 'es.json' },
+      { code: 'de', name: 'Deutsch', file: 'de.json' },
+      { code: 'it', name: 'Italiano', file: 'it.json' }
+    ],
+    lazy: true,
+    langDir: '../locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      alwaysRedirect: false,
+      fallbackLocale: 'en'
+    },
+    strategy: 'prefix_except_default'
   },
   app: {
     head: {
@@ -66,7 +88,7 @@ export default defineNuxtConfig({
         // Additional SEO meta tags
         { name: 'application-name', content: 'Deck Optimize' },
         { name: 'apple-mobile-web-app-title', content: 'Deck Optimize' },
-        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
         { name: 'format-detection', content: 'telephone=no' },
       ],      
