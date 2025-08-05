@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Deck Optimize",
+    "darkMode": {
+      "switchToLight": "Cambiar a modo claro",
+      "switchToDark": "Cambiar a modo oscuro"
+    }
+  },
+  "deckConfig": {
+    "title": "Configuración del Mazo",
+    "totalCards": {
+      "label": "Total de Cartas en el Mazo",
+      "tooltip": "Número total de cartas en tu mazo",
+      "title": "Número total de cartas en tu mazo"
+    },
+    "handSize": {
+      "label": "Tamaño de la Mano Inicial",
+      "tooltip": "Número de cartas que robas al inicio",
+      "title": "Número de cartas que robas al inicio"
+    },
+    "cardsAssigned": "Cartas Asignadas: {assigned} / {total}"
+  },
+  "examples": {
+    "title": "Ejemplos Rápidos",
+    "selectPlaceholder": "Elegir un Ejemplo Predefinido",
+    "description": "Selecciona un ejemplo para rellenar automáticamente el formulario con escenarios comunes de mazo",
+    "items": {
+      "empty": "Vacío",
+      "two-card-combo": "Allure of Darkness más un monstruo oscuro",
+      "minimum-desired": "Al menos una handtrap en la mano inicial",
+      "exactly-desired": "Exactamente tres handtraps en la mano inicial",
+      "grass-in-60": "Grass Looks Greener en un mazo de sesenta cartas",
+      "hollie-sue-enable": "Combo turno cero Hollie Sue",
+      "one-copy-playset": "Abrir con una copia de un playset de tres cartas",
+      "two-limited": "Dos cartas limitadas"
+    }
+  },
+  "cardGroups": {
+    "title": "Grupos de Cartas",
+    "groupName": {
+      "label": "Nombre del Grupo",
+      "placeholder": "Nombre del grupo (ej: Handtraps)",
+      "tooltip": "Dale un nombre descriptivo a este grupo"
+    },
+    "cardsUsed": {
+      "label": "Usadas",
+      "placeholder": "0",
+      "tooltip": "Cuántas copias de este grupo están en tu mazo",
+      "title": "Número de copias en el mazo"
+    },
+    "minimum": {
+      "label": "Mínimo",
+      "placeholder": "1",
+      "tooltip": "Cartas mínimas necesarias en la mano inicial",
+      "title": "Cartas mínimas necesarias en la mano inicial"
+    },
+    "maximum": {
+      "label": "Máximo",
+      "placeholder": "0",
+      "tooltip": "Cartas máximas necesarias en la mano inicial",
+      "title": "Cartas máximas necesarias en la mano inicial"
+    },
+    "addGroup": "Agregar Grupo"
+  },
+  "results": {
+    "chanceDescription": "Posibilidad de robar tu combinación deseada",
+    "shareButton": "Compartir Resultados"
+  },
+  "consistency": {
+    "excellent": "⭐ Probabilidad excelente",
+    "veryGood": "✨ Muy buena probabilidad",
+    "good": "👍 Buena probabilidad",
+    "fair": "⚠️ Probabilidad aceptable",
+    "low": "❌ Baja probabilidad"
+  },
+  "loading": {
+    "title": "Cargando configuración compartida...",
+    "subtitle": "Decodificando parámetros del mazo"
+  },
+  "notification": {
+    "linkCopied": "¡Enlace copiado al portapapeles!"
+  }
+}

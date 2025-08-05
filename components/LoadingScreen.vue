@@ -7,8 +7,8 @@
         </div>
         <div class="absolute inset-0 w-12 h-12 border-4 border-sakai-primary-dark border-t-transparent rounded-lg animate-spin mx-auto"></div>
       </div>
-      <div class="text-sakai-text-primary dark:text-white font-semibold text-lg mb-2">Loading shared configuration...</div>
-      <div class="text-sakai-text-secondary dark:text-sakai-surface-300 text-sm">Decoding deck parameters</div>
+      <div class="text-sakai-text-primary dark:text-white font-semibold text-lg mb-2">{{ $t('loading.title') }}</div>
+      <div class="text-sakai-text-secondary dark:text-sakai-surface-300 text-sm">{{ $t('loading.subtitle') }}</div>
     </div>
   </div>
 </template>

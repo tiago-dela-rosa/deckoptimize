@@ -78,12 +78,13 @@ export function useProbabilityCalculator() {
 
   function getConsistencyRating(probability: number | null): string {
     if (probability === null) return ''
+    const { t } = useI18n()
     const percent = probability * 100
-    if (percent >= 90) return '⭐ Excellent probability'
-    if (percent >= 75) return '✨ Very good probability'
-    if (percent >= 60) return '👍 Good probability'
-    if (percent >= 40) return '⚠️ Fair probability'
-    return '❌ Low probability'
+    if (percent >= 90) return t('consistency.excellent')
+    if (percent >= 75) return t('consistency.veryGood')
+    if (percent >= 60) return t('consistency.good')
+    if (percent >= 40) return t('consistency.fair')
+    return t('consistency.low')
   }
 
   function getConsistencyClasses(probability: number | null): string {

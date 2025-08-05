@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "Deck Optimize",
+    "darkMode": {
+      "switchToLight": "Passer en mode clair",
+      "switchToDark": "Passer en mode sombre"
+    }
+  },
+  "deckConfig": {
+    "title": "Configuration du Deck",
+    "totalCards": {
+      "label": "Total de Cartes dans le Deck",
+      "tooltip": "Nombre total de cartes dans votre deck",
+      "title": "Nombre total de cartes dans votre deck"
+    },
+    "handSize": {
+      "label": "Taille de la Main Initiale",
+      "tooltip": "Nombre de cartes que vous piochez au début",
+      "title": "Nombre de cartes que vous piochez au début"
+    },
+    "cardsAssigned": "Cartes Assignées : {assigned} / {total}"
+  },
+  "examples": {
+    "title": "Exemples Rapides",
+    "selectPlaceholder": "Choisir un Exemple Prédéfini",
+    "description": "Sélectionnez un exemple pour remplir automatiquement le formulaire avec des scénarios de deck courants",
+    "items": {
+      "empty": "Vide",
+      "two-card-combo": "Allure of Darkness plus un monstre sombre",
+      "minimum-desired": "Au moins une handtrap dans la main de départ",
+      "exactly-desired": "Exactement trois handtraps dans la main de départ",
+      "grass-in-60": "Grass Looks Greener dans un deck de soixante cartes",
+      "hollie-sue-enable": "Combo tour zéro Hollie Sue",
+      "one-copy-playset": "Ouvrir avec une copie d'un playset de trois cartes",
+      "two-limited": "Deux cartes limitées"
+    }
+  },
+  "cardGroups": {
+    "title": "Groupes de Cartes",
+    "groupName": {
+      "label": "Nom du Groupe",
+      "placeholder": "Nom du groupe (ex : Handtraps)",
+      "tooltip": "Donnez un nom descriptif à ce groupe"
+    },
+    "cardsUsed": {
+      "label": "En Jeu",
+      "placeholder": "0",
+      "tooltip": "Combien de copies de ce groupe sont dans votre deck",
+      "title": "Nombre de copies dans le deck"
+    },
+    "minimum": {
+      "label": "Minimum",
+      "placeholder": "1",
+      "tooltip": "Cartes minimum nécessaires dans la main de départ",
+      "title": "Cartes minimum nécessaires dans la main de départ"
+    },
+    "maximum": {
+      "label": "Maximum",
+      "placeholder": "0",
+      "tooltip": "Cartes maximum nécessaires dans la main de départ",
+      "title": "Cartes maximum nécessaires dans la main de départ"
+    },
+    "addGroup": "Ajouter un Groupe"
+  },
+  "results": {
+    "chanceDescription": "Chance de tirer votre combinaison désirée",
+    "shareButton": "Partager les Résultats"
+  },
+  "consistency": {
+    "excellent": "⭐ Probabilité excellente",
+    "veryGood": "✨ Très bonne probabilité",
+    "good": "👍 Bonne probabilité",
+    "fair": "⚠️ Probabilité correcte",
+    "low": "❌ Faible probabilité"
+  },
+  "loading": {
+    "title": "Chargement de la configuration partagée...",
+    "subtitle": "Décodage des paramètres du deck"
+  },
+  "notification": {
+    "linkCopied": "Lien copié dans le presse-papier !"
+  }
+}

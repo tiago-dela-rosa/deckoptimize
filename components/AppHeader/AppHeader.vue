@@ -4,13 +4,13 @@
       <div class="w-8 h-8 bg-sakai-primary rounded-lg flex items-center justify-center">
         <Icon name="bxs:chart" class="w-5 h-5 text-white" />
       </div>
-      <span class="text-xl font-semibold text-sakai-text-primary dark:text-white">Deck Optimize</span>
+      <span class="text-xl font-semibold text-sakai-text-primary dark:text-white">{{ $t('header.title') }}</span>
     </div>
     
     <button 
       @click="toggleDarkMode"
       class="p-2 rounded-lg hover:bg-sakai-surface-100 dark:hover:bg-sakai-surface-700 transition-colors"
-      :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+      :title="isDark ? $t('header.darkMode.switchToLight') : $t('header.darkMode.switchToDark')"
     >
       <Icon v-if="isDark" name="heroicons:sun" class="w-5 h-5 text-sakai-text-primary dark:text-white" />
       <Icon v-else name="heroicons:moon" class="w-5 h-5 text-sakai-text-primary dark:text-white" />
