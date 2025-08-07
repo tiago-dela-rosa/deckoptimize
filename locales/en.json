@@ -79,5 +79,15 @@
   },
   "notification": {
     "linkCopied": "Link copied to clipboard!"
+  },
+  "chart": {
+    "probabilityAnalysis": "Probability Analysis",
+    "analysisDescription": "Visualize how probability changes with different card quantities",
+    "analysisRange": "Analysis Range",
+    "refresh": "Refresh",
+    "generating": "Generating chart...",
+    "probabilityCurve": "Probability curve",
+    "optimalThreshold": "Optimal threshold (75%)",
+    "optimalPoints": "Optimal points"
   }
 }

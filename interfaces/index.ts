@@ -28,3 +28,15 @@ export interface PrebuiltExample {
 export interface CardGroupWithId extends CardGroup {
   id: number
 }
+
+// Chart-specific interfaces
+export interface ChartDataPoint {
+  x: number
+  y: number
+  label?: string
+}
+
+export interface OptimalPoint extends ChartDataPoint {
+  isOptimal: boolean
+  threshold: number
+}
