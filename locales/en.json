@@ -89,5 +89,48 @@
     "probabilityCurve": "Probability curve",
     "optimalThreshold": "Optimal threshold (75%)",
     "optimalPoints": "Optimal points"
+  },
+  "probabilityChart": {
+    "title": "Opening Hand Probability Analysis",
+    "description": "Calculate the probability of opening with different quantities of specific cards in your opening hand",
+    "settings": {
+      "title": "Chart Settings",
+      "cardTypeName": {
+        "label": "Card Type Name",
+        "placeholder": "e.g. Starters, Handtraps, Bricks..."
+      },
+      "cardsInDeck": "Cards in Deck",
+      "handSize": "Hand Size"
+    },
+    "scenarios": {
+      "title": "Probability Scenarios",
+      "modes": {
+        "atLeast": "At Least",
+        "exactly": "Exactly",
+        "between": "Between"
+      },
+      "quickSelect": "Quick select:",
+      "betweenInputs": {
+        "min": "Min:",
+        "max": "Max:",
+        "addLine": "+ Add Line"
+      },
+      "activeLines": "Active lines:",
+      "labels": {
+        "atLeast": "At least {count} {cardType}",
+        "exactly": "Exactly {count} {cardType}",
+        "between": "Between {min}-{max} {cardType}",
+        "defaultCard": "card",
+        "defaultCards": "cards"
+      }
+    },
+    "axes": {
+      "xAxis": "Number of {cardType} in Deck",
+      "yAxis": "Opening Hand Probability (%)",
+      "defaultCardType": "Cards"
+    },
+    "tooltip": {
+      "cardCount": "{count} {cardType}"
+    }
   }
 }

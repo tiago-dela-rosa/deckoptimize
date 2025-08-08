@@ -3,10 +3,10 @@
     <!-- Chart Header -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold text-sakai-text-primary dark:text-white mb-2">
-        Opening Hand Probability Analysis
+        {{ t('probabilityChart.title') }}
       </h2>
       <p class="text-sm text-sakai-text-secondary dark:text-slate-300">
-        Calculate the probability of opening with different quantities of specific cards in your opening hand
+        {{ t('probabilityChart.description') }}
       </p>
     </div>
 
@@ -16,7 +16,7 @@
       <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center bg-white dark:bg-sakai-surface-800 rounded-lg z-10">
         <div class="flex items-center space-x-3">
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-sakai-primary"></div>
-          <span class="text-sakai-text-secondary">Loading chart...</span>
+          <span class="text-sakai-text-secondary">{{ t('loading.title') }}</span>
         </div>
       </div>
 
@@ -33,19 +33,19 @@
       <!-- Chart Configuration Panel -->
       <div class="mt-6 bg-sakai-surface-50 dark:bg-sakai-surface-700 rounded-lg p-4 border-t border-sakai-surface-200 dark:border-sakai-surface-600">
         <h3 class="text-sm font-semibold text-sakai-text-primary dark:text-white mb-4">
-          Chart Settings
+          {{ t('probabilityChart.settings.title') }}
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <!-- Chart Title -->
           <div class="sm:col-span-2 lg:col-span-1">
             <label for="chartTitle" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
-              Card Type Name
+              {{ t('probabilityChart.settings.cardTypeName.label') }}
             </label>
             <input
               id="chartTitle"
               v-model="chartTitle"
               type="text"
-              placeholder="e.g. Starters, Handtraps, Bricks..."
+              :placeholder="t('probabilityChart.settings.cardTypeName.placeholder')"
               :disabled="isLoading"
               class="w-full px-3 py-2 border border-sakai-surface-300 dark:border-sakai-surface-600 rounded-lg bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-sakai-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -54,7 +54,7 @@
           <!-- Deck Size -->
           <div>
             <label for="deckSize" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
-              Cards in Deck
+              {{ t('probabilityChart.settings.cardsInDeck') }}
             </label>
             <input
               id="deckSize"
@@ -70,7 +70,7 @@
           <!-- Hand Size -->
           <div>
             <label for="handSize" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
-              Hand Size
+              {{ t('probabilityChart.settings.handSize') }}
             </label>
             <input
               id="handSize"
@@ -87,7 +87,7 @@
         <!-- Probability Scenarios -->
         <div class="border-t border-sakai-surface-200 dark:border-sakai-surface-600 pt-4">
           <h4 class="text-sm font-semibold text-sakai-text-primary dark:text-white mb-3">
-            Probability Scenarios
+            {{ t('probabilityChart.scenarios.title') }}
           </h4>
           
           <!-- Mode Selection -->
@@ -103,7 +103,7 @@
                 ]"
                 :disabled="isLoading"
               >
-                At Least
+                {{ t('probabilityChart.scenarios.modes.atLeast') }}
               </button>
               <button
                 @click="scenarioMode = 'exactly'"
@@ -115,7 +115,7 @@
                 ]"
                 :disabled="isLoading"
               >
-                Exactly
+                {{ t('probabilityChart.scenarios.modes.exactly') }}
               </button>
               <button
                 @click="scenarioMode = 'between'"
@@ -127,7 +127,7 @@
                 ]"
                 :disabled="isLoading"
               >
-                Between
+                {{ t('probabilityChart.scenarios.modes.between') }}
               </button>
             </div>
           </div>
@@ -135,7 +135,7 @@
           <!-- Quick Select -->
           <div class="mb-4">
             <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-2">
-              Quick select:
+              {{ t('probabilityChart.scenarios.quickSelect') }}
             </label>
             <div class="flex flex-wrap gap-2">
               <button
@@ -154,7 +154,7 @@
           <div v-if="scenarioMode === 'between'" class="mb-4 flex gap-3 items-end">
             <div class="flex-1">
               <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-1">
-                Min:
+                {{ t('probabilityChart.scenarios.betweenInputs.min') }}
               </label>
               <input
                 v-model.number="betweenMin"
@@ -167,7 +167,7 @@
             </div>
             <div class="flex-1">
               <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-1">
-                Max:
+                {{ t('probabilityChart.scenarios.betweenInputs.max') }}
               </label>
               <input
                 v-model.number="betweenMax"
@@ -183,14 +183,14 @@
               :disabled="isLoading || !canAddBetween"
               class="px-3 py-1 text-sm bg-sakai-primary text-white rounded hover:bg-sakai-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              + Add Line
+              {{ t('probabilityChart.scenarios.betweenInputs.addLine') }}
             </button>
           </div>
 
           <!-- Active Scenarios -->
           <div v-if="activeScenarios.length > 0" class="border-t border-sakai-surface-200 dark:border-sakai-surface-600 pt-3">
             <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-2">
-              Active lines:
+              {{ t('probabilityChart.scenarios.activeLines') }}
             </label>
             <div class="space-y-2">
               <div
@@ -271,6 +271,7 @@ const scenarioColors = [
 
 // Composables
 const { getProbabilityColorClass, getConsistencyRating } = useProbabilityCalculator()
+const { t } = useI18n()
 
 // Simple dark mode detection without reactivity issues
 const isDarkMode = () => {
@@ -389,14 +390,14 @@ const generateScenarioId = (): string => {
 }
 
 const createScenarioLabel = (scenario: Scenario): string => {
-  const cardName = chartTitle.value || 'cards'
+  const cardType = chartTitle.value?.toLowerCase() || t('probabilityChart.scenarios.labels.defaultCards')
   switch (scenario.type) {
     case 'atLeast':
-      return `At least ${scenario.value} ${cardName.toLowerCase()}`
+      return t('probabilityChart.scenarios.labels.atLeast', { count: scenario.value, cardType })
     case 'exactly':
-      return `Exactly ${scenario.value} ${cardName.toLowerCase()}`
+      return t('probabilityChart.scenarios.labels.exactly', { count: scenario.value, cardType })
     case 'between':
-      return `Between ${scenario.minValue}-${scenario.maxValue} ${cardName.toLowerCase()}`
+      return t('probabilityChart.scenarios.labels.between', { min: scenario.minValue, max: scenario.maxValue, cardType })
     default:
       return 'Unknown'
   }
@@ -473,7 +474,10 @@ const getChartData = () => {
       labels,
       datasets: [
         {
-          label: `At least 1 ${chartTitle.value?.toLowerCase() || 'card'}`,
+          label: t('probabilityChart.scenarios.labels.atLeast', { 
+            count: 1, 
+            cardType: chartTitle.value?.toLowerCase() || t('probabilityChart.scenarios.labels.defaultCard') 
+          }),
           data: probabilityData,
           borderColor: isDark ? '#34d399' : '#10b981',
           backgroundColor: isDark ? '#34d39920' : '#10b98120',
@@ -564,7 +568,10 @@ const getChartOptions = () => {
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          title: (context: any) => `${context[0].label} ${chartTitle.value?.toLowerCase() || 'cards'}`,
+          title: (context: any) => t('probabilityChart.tooltip.cardCount', { 
+            count: context[0].label, 
+            cardType: chartTitle.value?.toLowerCase() || t('probabilityChart.scenarios.labels.defaultCards') 
+          }),
           label: (context: any) => {
             const datasetLabel = context.dataset.label
             const value = context.parsed.y
@@ -577,7 +584,9 @@ const getChartOptions = () => {
       x: {
         title: {
           display: true,
-          text: `Number of ${chartTitle.value || 'Cards'} in Deck`,
+          text: t('probabilityChart.axes.xAxis', { 
+            cardType: chartTitle.value || t('probabilityChart.axes.defaultCardType') 
+          }),
           color: isDark ? '#d1d5db' : '#6b7280',
           font: {
             size: 12,
@@ -597,7 +606,7 @@ const getChartOptions = () => {
         position: 'left' as const,
         title: {
           display: true,
-          text: 'Opening Hand Probability (%)',
+          text: t('probabilityChart.axes.yAxis'),
           color: isDark ? '#34d399' : '#10b981',
           font: {
             size: 12,
@@ -738,7 +747,10 @@ const initializeDefaultScenario = () => {
     type: 'atLeast',
     value: 1,
     color: getNextColor(),
-    label: `At least 1 ${chartTitle.value?.toLowerCase() || 'card'}`
+    label: t('probabilityChart.scenarios.labels.atLeast', { 
+      count: 1, 
+      cardType: chartTitle.value?.toLowerCase() || t('probabilityChart.scenarios.labels.defaultCard') 
+    })
   }
   
   // Use silent assignment to avoid triggering watchers during initialization

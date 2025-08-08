@@ -79,5 +79,48 @@
   },
   "notification": {
     "linkCopied": "Lien copié dans le presse-papier !"
+  },
+  "probabilityChart": {
+    "title": "Analyse de Probabilité d'Ouverture",
+    "description": "Calculez la probabilité d'ouvrir avec différentes quantités de cartes spécifiques dans votre main initiale",
+    "settings": {
+      "title": "Paramètres du Graphique",
+      "cardTypeName": {
+        "label": "Nom du Type de Carte",
+        "placeholder": "ex. Starters, Handtraps, Briques..."
+      },
+      "cardsInDeck": "Cartes dans le Deck",
+      "handSize": "Taille de la Main"
+    },
+    "scenarios": {
+      "title": "Scénarios de Probabilité",
+      "modes": {
+        "atLeast": "Au moins",
+        "exactly": "Exactement",
+        "between": "Entre"
+      },
+      "quickSelect": "Sélection rapide :",
+      "betweenInputs": {
+        "min": "Min :",
+        "max": "Max :",
+        "addLine": "+ Ajouter Ligne"
+      },
+      "activeLines": "Lignes actives :",
+      "labels": {
+        "atLeast": "Au moins {count} {cardType}",
+        "exactly": "Exactement {count} {cardType}",
+        "between": "Entre {min}-{max} {cardType}",
+        "defaultCard": "carte",
+        "defaultCards": "cartes"
+      }
+    },
+    "axes": {
+      "xAxis": "Nombre de {cardType} dans le Deck",
+      "yAxis": "Probabilité d'Ouverture (%)",
+      "defaultCardType": "Cartes"
+    },
+    "tooltip": {
+      "cardCount": "{count} {cardType}"
+    }
   }
 }
