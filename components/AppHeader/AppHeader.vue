@@ -1,15 +1,15 @@
 <template>
-  <header class="relative flex items-center px-6 py-3 bg-white/80 dark:bg-sakai-surface-800/80 backdrop-blur-sm border-b border-sakai-surface-200 dark:border-sakai-surface-600">
+  <header class="relative flex items-center px-3 xs:px-6 py-3 bg-white/80 dark:bg-sakai-surface-800/80 backdrop-blur-sm border-b border-sakai-surface-200 dark:border-sakai-surface-600">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <div class="w-8 h-8 bg-sakai-primary rounded-lg flex items-center justify-center">
         <Icon name="bxs:chart" class="w-5 h-5 text-white" />
       </div>
-      <span class="text-xl font-semibold text-sakai-text-primary dark:text-white">{{ $t('header.title') }}</span>
+      <span class="text-lg xs:text-xl font-semibold text-sakai-text-primary dark:text-white">{{ $t('header.title') }}</span>
     </div>
     
-    <!-- Navigation Tabs - Centered -->
-    <nav class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
+    <!-- Navigation Tabs - Responsive positioning -->
+    <nav class="absolute right-16 xs:left-1/2 xs:right-auto xs:transform xs:-translate-x-1/2 flex items-center space-x-1">
       <NuxtLink
         to="/"
         @click="trackNavigation('calculator')"

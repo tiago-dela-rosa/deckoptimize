@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '500px',
+      },
       colors: {
         'sakai': {
           primary: '#10b981',
