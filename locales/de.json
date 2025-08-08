@@ -79,5 +79,48 @@
   },
   "notification": {
     "linkCopied": "Link in die Zwischenablage kopiert!"
+  },
+  "probabilityChart": {
+    "title": "Starthand-Wahrscheinlichkeitsanalyse",
+    "description": "Berechnen Sie die Wahrscheinlichkeit, mit verschiedenen Mengen spezifischer Karten in Ihrer Starthand zu eröffnen",
+    "settings": {
+      "title": "Diagramm-Einstellungen",
+      "cardTypeName": {
+        "label": "Kartentyp-Name",
+        "placeholder": "z.B. Starter, Handtraps, Ziegel..."
+      },
+      "cardsInDeck": "Karten im Deck",
+      "handSize": "Handgröße"
+    },
+    "scenarios": {
+      "title": "Wahrscheinlichkeits-Szenarien",
+      "modes": {
+        "atLeast": "Mindestens",
+        "exactly": "Genau",
+        "between": "Zwischen"
+      },
+      "quickSelect": "Schnellauswahl:",
+      "betweenInputs": {
+        "min": "Min:",
+        "max": "Max:",
+        "addLine": "+ Linie hinzufügen"
+      },
+      "activeLines": "Aktive Linien:",
+      "labels": {
+        "atLeast": "Mindestens {count} {cardType}",
+        "exactly": "Genau {count} {cardType}",
+        "between": "Zwischen {min}-{max} {cardType}",
+        "defaultCard": "Karte",
+        "defaultCards": "Karten"
+      }
+    },
+    "axes": {
+      "xAxis": "Anzahl {cardType} im Deck",
+      "yAxis": "Starthand-Wahrscheinlichkeit (%)",
+      "defaultCardType": "Karten"
+    },
+    "tooltip": {
+      "cardCount": "{count} {cardType}"
+    }
   }
 }

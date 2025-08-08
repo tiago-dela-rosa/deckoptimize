@@ -79,5 +79,48 @@
   },
   "notification": {
     "linkCopied": "Link copiato negli appunti!"
+  },
+  "probabilityChart": {
+    "title": "Analisi di Probabilità della Mano Iniziale",
+    "description": "Calcola la probabilità di aprire con diverse quantità di carte specifiche nella tua mano iniziale",
+    "settings": {
+      "title": "Impostazioni del Grafico",
+      "cardTypeName": {
+        "label": "Nome del Tipo di Carta",
+        "placeholder": "es. Starter, Handtrap, Mattoni..."
+      },
+      "cardsInDeck": "Carte nel Mazzo",
+      "handSize": "Dimensione della Mano"
+    },
+    "scenarios": {
+      "title": "Scenari di Probabilità",
+      "modes": {
+        "atLeast": "Almeno",
+        "exactly": "Esattamente",
+        "between": "Tra"
+      },
+      "quickSelect": "Selezione rapida:",
+      "betweenInputs": {
+        "min": "Min:",
+        "max": "Max:",
+        "addLine": "+ Aggiungi Linea"
+      },
+      "activeLines": "Linee attive:",
+      "labels": {
+        "atLeast": "Almeno {count} {cardType}",
+        "exactly": "Esattamente {count} {cardType}",
+        "between": "Tra {min}-{max} {cardType}",
+        "defaultCard": "carta",
+        "defaultCards": "carte"
+      }
+    },
+    "axes": {
+      "xAxis": "Numero di {cardType} nel Mazzo",
+      "yAxis": "Probabilità della Mano Iniziale (%)",
+      "defaultCardType": "Carte"
+    },
+    "tooltip": {
+      "cardCount": "{count} {cardType}"
+    }
   }
 }
