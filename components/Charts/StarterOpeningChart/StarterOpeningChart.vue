@@ -3,10 +3,10 @@
     <!-- Chart Header -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold text-sakai-text-primary dark:text-white mb-2">
-        Chances de abrir com starter
+        Opening Hand Probability Analysis
       </h2>
       <p class="text-sm text-sakai-text-secondary dark:text-slate-300">
-        Probabilidade de abrir com starter e ganhos marginais mostrando retornos decrescentes para identificar o número ótimo
+        Calculate the probability of opening with different quantities of specific cards in your opening hand
       </p>
     </div>
 
@@ -30,30 +30,192 @@
         ></canvas>
       </div>
 
-      <!-- Chart Stats -->
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-sakai-surface-200 dark:border-sakai-surface-600">
-        <div class="text-center">
-          <div class="text-2xl font-bold text-sakai-primary">
-            {{ optimalStarters }}
+      <!-- Chart Configuration Panel -->
+      <div class="mt-6 bg-sakai-surface-50 dark:bg-sakai-surface-700 rounded-lg p-4 border-t border-sakai-surface-200 dark:border-sakai-surface-600">
+        <h3 class="text-sm font-semibold text-sakai-text-primary dark:text-white mb-4">
+          Chart Settings
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <!-- Chart Title -->
+          <div class="sm:col-span-2 lg:col-span-1">
+            <label for="chartTitle" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
+              Card Type Name
+            </label>
+            <input
+              id="chartTitle"
+              v-model="chartTitle"
+              type="text"
+              placeholder="e.g. Starters, Handtraps, Bricks..."
+              :disabled="isLoading"
+              class="w-full px-3 py-2 border border-sakai-surface-300 dark:border-sakai-surface-600 rounded-lg bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-sakai-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            />
           </div>
-          <div class="text-sm text-sakai-text-secondary">
-            Starters ótimos
+          
+          <!-- Deck Size -->
+          <div>
+            <label for="deckSize" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
+              Cards in Deck
+            </label>
+            <input
+              id="deckSize"
+              v-model.number="localDeckSize"
+              type="number"
+              :min="30"
+              :max="60"
+              :disabled="isLoading"
+              class="w-full px-3 py-2 border border-sakai-surface-300 dark:border-sakai-surface-600 rounded-lg bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-sakai-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+          </div>
+          
+          <!-- Hand Size -->
+          <div>
+            <label for="handSize" class="block text-sm font-medium text-sakai-text-primary dark:text-white mb-2">
+              Hand Size
+            </label>
+            <input
+              id="handSize"
+              v-model.number="localHandSize"
+              type="number"
+              :min="4"
+              :max="6"
+              :disabled="isLoading"
+              class="w-full px-3 py-2 border border-sakai-surface-300 dark:border-sakai-surface-600 rounded-lg bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-sakai-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            />
           </div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl font-bold text-sakai-primary">
-            {{ optimalProbability }}%
+
+        <!-- Probability Scenarios -->
+        <div class="border-t border-sakai-surface-200 dark:border-sakai-surface-600 pt-4">
+          <h4 class="text-sm font-semibold text-sakai-text-primary dark:text-white mb-3">
+            Probability Scenarios
+          </h4>
+          
+          <!-- Mode Selection -->
+          <div class="mb-4">
+            <div class="flex flex-wrap gap-2">
+              <button
+                @click="scenarioMode = 'atLeast'"
+                :class="[
+                  'px-3 py-2 text-sm rounded-lg border transition-colors',
+                  scenarioMode === 'atLeast'
+                    ? 'bg-sakai-primary text-white border-sakai-primary'
+                    : 'bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white border-sakai-surface-300 dark:border-sakai-surface-600 hover:border-sakai-primary'
+                ]"
+                :disabled="isLoading"
+              >
+                At Least
+              </button>
+              <button
+                @click="scenarioMode = 'exactly'"
+                :class="[
+                  'px-3 py-2 text-sm rounded-lg border transition-colors',
+                  scenarioMode === 'exactly'
+                    ? 'bg-sakai-primary text-white border-sakai-primary'
+                    : 'bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white border-sakai-surface-300 dark:border-sakai-surface-600 hover:border-sakai-primary'
+                ]"
+                :disabled="isLoading"
+              >
+                Exactly
+              </button>
+              <button
+                @click="scenarioMode = 'between'"
+                :class="[
+                  'px-3 py-2 text-sm rounded-lg border transition-colors',
+                  scenarioMode === 'between'
+                    ? 'bg-sakai-primary text-white border-sakai-primary'
+                    : 'bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white border-sakai-surface-300 dark:border-sakai-surface-600 hover:border-sakai-primary'
+                ]"
+                :disabled="isLoading"
+              >
+                Between
+              </button>
+            </div>
           </div>
-          <div class="text-sm text-sakai-text-secondary">
-            Probabilidade no ótimo
+
+          <!-- Quick Select -->
+          <div class="mb-4">
+            <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-2">
+              Quick select:
+            </label>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="num in [1, 2, 3, 4, 5]"
+                :key="num"
+                @click="addScenario(num)"
+                :disabled="isLoading"
+                class="w-10 h-10 text-sm font-medium rounded-lg border-2 bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white border-sakai-surface-300 dark:border-sakai-surface-600 hover:border-sakai-primary hover:bg-sakai-primary hover:text-white hover:shadow-md hover:scale-105 transition-all duration-200 transform disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {{ num }}
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="text-center">
-          <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">
-            +{{ optimalMarginalGain }}%
+
+          <!-- Between Mode Inputs -->
+          <div v-if="scenarioMode === 'between'" class="mb-4 flex gap-3 items-end">
+            <div class="flex-1">
+              <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-1">
+                Min:
+              </label>
+              <input
+                v-model.number="betweenMin"
+                type="number"
+                :min="1"
+                :max="localHandSize"
+                :disabled="isLoading"
+                class="w-full px-2 py-1 text-sm border border-sakai-surface-300 dark:border-sakai-surface-600 rounded bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-1 focus:ring-sakai-primary disabled:opacity-50"
+              />
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-1">
+                Max:
+              </label>
+              <input
+                v-model.number="betweenMax"
+                type="number"
+                :min="betweenMin || 1"
+                :max="localHandSize"
+                :disabled="isLoading"
+                class="w-full px-2 py-1 text-sm border border-sakai-surface-300 dark:border-sakai-surface-600 rounded bg-white dark:bg-sakai-surface-800 text-sakai-text-primary dark:text-white focus:outline-none focus:ring-1 focus:ring-sakai-primary disabled:opacity-50"
+              />
+            </div>
+            <button
+              @click="addBetweenScenario"
+              :disabled="isLoading || !canAddBetween"
+              class="px-3 py-1 text-sm bg-sakai-primary text-white rounded hover:bg-sakai-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              + Add Line
+            </button>
           </div>
-          <div class="text-sm text-sakai-text-secondary">
-            Ganho marginal
+
+          <!-- Active Scenarios -->
+          <div v-if="activeScenarios.length > 0" class="border-t border-sakai-surface-200 dark:border-sakai-surface-600 pt-3">
+            <label class="block text-xs font-medium text-sakai-text-secondary dark:text-slate-300 mb-2">
+              Active lines:
+            </label>
+            <div class="space-y-2">
+              <div
+                v-for="scenario in activeScenarios"
+                :key="scenario.id"
+                class="flex items-center justify-between bg-white dark:bg-sakai-surface-800 rounded px-3 py-2 border border-sakai-surface-200 dark:border-sakai-surface-600"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    :style="{ backgroundColor: scenario.color }"
+                    class="w-3 h-3 rounded-full"
+                  ></div>
+                  <span class="text-sm text-sakai-text-primary dark:text-white">
+                    {{ getScenarioLabel(scenario) }}
+                  </span>
+                </div>
+                <button
+                  @click="removeScenario(scenario.id)"
+                  :disabled="isLoading"
+                  class="w-6 h-6 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -71,6 +233,42 @@ const chartInstance = ref<Chart>()
 const isLoading = ref(true) // Start with true to show loading
 const isInitialized = ref(false)
 
+// Configuration state
+const localDeckSize = ref(40)
+const localHandSize = ref(5)
+const chartTitle = ref('Starters')
+
+// Scenario types and interfaces
+type ScenarioMode = 'atLeast' | 'exactly' | 'between'
+interface Scenario {
+  id: string
+  type: ScenarioMode
+  value: number
+  minValue?: number
+  maxValue?: number
+  color: string
+  label: string
+}
+
+// Scenario state
+const scenarioMode = ref<ScenarioMode>('atLeast')
+const betweenMin = ref(1)
+const betweenMax = ref(2)
+const activeScenarios = ref<Scenario[]>([])
+let scenarioCounter = 0
+
+// Color palette for different scenario lines
+const scenarioColors = [
+  '#10b981', // green-600
+  '#3b82f6', // blue-600
+  '#f59e0b', // yellow-600
+  '#ef4444', // red-600
+  '#8b5cf6', // violet-600
+  '#f97316', // orange-600
+  '#06b6d4', // cyan-600
+  '#84cc16', // lime-600
+]
+
 // Composables
 const { getProbabilityColorClass, getConsistencyRating } = useProbabilityCalculator()
 
@@ -82,79 +280,250 @@ const isDarkMode = () => {
   return false
 }
 
-// Computed properties
-const optimalStarters = computed(() => {
-  // Find the point where marginal gains drop below 3% (diminishing returns threshold)
-  const marginalGains = getMarginalGains()
-  for (let i = 0; i < marginalGains.length; i++) {
-    if (marginalGains[i] < 3.0) {
-      return i + 2 // +2 because marginal gains start from the second starter
+// Dynamic probability calculation functions
+const hypergeometric = (N: number, K: number, n: number, k: number): number => {
+  const combination = (n: number, r: number): number => {
+    if (r > n || r < 0) return 0
+    if (r === 0 || r === n) return 1
+    
+    let result = 1
+    for (let i = 0; i < Math.min(r, n - r); i++) {
+      result = result * (n - i) / (i + 1)
     }
+    return Math.floor(result)
   }
-  return 12 // Fallback
+
+  const numerator = combination(K, k) * combination(N - K, n - k)
+  const denominator = combination(N, n)
+  
+  return denominator === 0 ? 0 : numerator / denominator
+}
+
+const calculateStarterProbability = (deckSize: number, handSize: number, starters: number): number => {
+  const probZeroStarters = hypergeometric(deckSize, starters, handSize, 0)
+  const probAtLeastOne = 1 - probZeroStarters
+  return Math.round(probAtLeastOne * 10000) / 100
+}
+
+// Calculate probability for different scenarios
+const calculateScenarioProbability = (
+  deckSize: number,
+  handSize: number,
+  starters: number,
+  scenario: Scenario
+): number => {
+  switch (scenario.type) {
+    case 'atLeast': {
+      // P(X >= k) = 1 - P(X < k) = 1 - Σ(i=0 to k-1) P(X = i)
+      let probLessThanK = 0
+      for (let i = 0; i < scenario.value; i++) {
+        probLessThanK += hypergeometric(deckSize, starters, handSize, i)
+      }
+      return Math.round((1 - probLessThanK) * 10000) / 100
+    }
+    
+    case 'exactly': {
+      // P(X = k)
+      const prob = hypergeometric(deckSize, starters, handSize, scenario.value)
+      return Math.round(prob * 10000) / 100
+    }
+    
+    case 'between': {
+      // P(min <= X <= max) = Σ(i=min to max) P(X = i)
+      let probSum = 0
+      const minVal = scenario.minValue || 0
+      const maxVal = scenario.maxValue || handSize
+      
+      for (let i = minVal; i <= maxVal; i++) {
+        probSum += hypergeometric(deckSize, starters, handSize, i)
+      }
+      return Math.round(probSum * 10000) / 100
+    }
+    
+    default:
+      return 0
+  }
+}
+
+const generateScenarioData = (deckSize: number, handSize: number, scenario: Scenario) => {
+  const maxStarters = Math.min(30, Math.floor(deckSize * 0.75))
+  const data: { starters: number; probability: number }[] = []
+  
+  for (let starters = 1; starters <= maxStarters; starters++) {
+    const probability = calculateScenarioProbability(deckSize, handSize, starters, scenario)
+    data.push({ starters, probability })
+  }
+  
+  return data
+}
+
+const generateDynamicData = (deckSize: number, handSize: number) => {
+  const maxStarters = Math.min(30, Math.floor(deckSize * 0.75))
+  const data: { starters: number; probability: number }[] = []
+  
+  for (let starters = 1; starters <= maxStarters; starters++) {
+    const probability = calculateStarterProbability(deckSize, handSize, starters)
+    data.push({ starters, probability })
+  }
+  
+  return data
+}
+
+
+// Computed properties
+const currentData = computed(() => {
+  return generateDynamicData(localDeckSize.value, localHandSize.value)
 })
 
-const optimalProbability = computed(() => {
-  const optimal = starterOpeningData.find(point => point.starters === optimalStarters.value)
-  return optimal ? optimal.probability : 0
+const canAddBetween = computed(() => {
+  return betweenMin.value && betweenMax.value && betweenMin.value <= betweenMax.value
 })
 
-const optimalMarginalGain = computed(() => {
-  const marginalGains = getMarginalGains()
-  const index = optimalStarters.value - 2 // -2 because marginal gains start from the second starter
-  return index >= 0 && index < marginalGains.length ? marginalGains[index] : 0
-})
+// Scenario management functions
+const getNextColor = (): string => {
+  return scenarioColors[activeScenarios.value.length % scenarioColors.length]
+}
 
-const rating = computed(() => {
-  return getConsistencyRating(optimalProbability.value / 100)
-})
+const generateScenarioId = (): string => {
+  return `scenario-${++scenarioCounter}`
+}
 
-const ratingClass = computed(() => {
-  return getProbabilityColorClass(optimalProbability.value / 100)
-})
+const createScenarioLabel = (scenario: Scenario): string => {
+  const cardName = chartTitle.value || 'cards'
+  switch (scenario.type) {
+    case 'atLeast':
+      return `At least ${scenario.value} ${cardName.toLowerCase()}`
+    case 'exactly':
+      return `Exactly ${scenario.value} ${cardName.toLowerCase()}`
+    case 'between':
+      return `Between ${scenario.minValue}-${scenario.maxValue} ${cardName.toLowerCase()}`
+    default:
+      return 'Unknown'
+  }
+}
+
+
+const addScenario = (value: number) => {
+  const existingScenario = activeScenarios.value.find(
+    s => s.type === scenarioMode.value && s.value === value
+  )
+  
+  if (existingScenario) {
+    return // Scenario already exists
+  }
+
+  const newScenario: Scenario = {
+    id: generateScenarioId(),
+    type: scenarioMode.value,
+    value,
+    color: getNextColor(),
+    label: ''
+  }
+  
+  newScenario.label = createScenarioLabel(newScenario)
+  activeScenarios.value.push(newScenario)
+}
+
+const addBetweenScenario = () => {
+  if (!canAddBetween.value) return
+  
+  const existingScenario = activeScenarios.value.find(
+    s => s.type === 'between' && s.minValue === betweenMin.value && s.maxValue === betweenMax.value
+  )
+  
+  if (existingScenario) {
+    return // Scenario already exists
+  }
+
+  const newScenario: Scenario = {
+    id: generateScenarioId(),
+    type: 'between',
+    value: 0, // Not used for between
+    minValue: betweenMin.value,
+    maxValue: betweenMax.value,
+    color: getNextColor(),
+    label: ''
+  }
+  
+  newScenario.label = createScenarioLabel(newScenario)
+  activeScenarios.value.push(newScenario)
+}
+
+const removeScenario = (scenarioId: string) => {
+  const index = activeScenarios.value.findIndex(s => s.id === scenarioId)
+  if (index !== -1) {
+    activeScenarios.value.splice(index, 1)
+  }
+}
+
+const getScenarioLabel = (scenario: Scenario): string => {
+  return scenario.label
+}
 
 const getChartData = () => {
-  const labels = starterOpeningData.map(point => point.starters.toString())
-  const probabilityData = starterOpeningData.map(point => point.probability)
-  const marginalGains = getMarginalGains()
-  // Marginal gains labels start from 2 starters since we need differences
-  const marginalLabels = labels.slice(1)
   const isDark = isDarkMode()
   
+  // If no active scenarios, show default "at least 1" line
+  if (activeScenarios.value.length === 0) {
+    const data = currentData.value
+    const labels = data.map(point => point.starters.toString())
+    const probabilityData = data.map(point => point.probability)
+    
+    return {
+      labels,
+      datasets: [
+        {
+          label: `At least 1 ${chartTitle.value?.toLowerCase() || 'card'}`,
+          data: probabilityData,
+          borderColor: isDark ? '#34d399' : '#10b981',
+          backgroundColor: isDark ? '#34d39920' : '#10b98120',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: isDark ? '#34d399' : '#10b981',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          yAxisID: 'y'
+        }
+      ]
+    }
+  }
+
+  // Generate data for all active scenarios
+  const allLabels: string[] = []
+  const datasets: any[] = []
+
+  // Get common labels (x-axis values)
+  if (activeScenarios.value.length > 0) {
+    const firstScenarioData = generateScenarioData(localDeckSize.value, localHandSize.value, activeScenarios.value[0])
+    allLabels.push(...firstScenarioData.map(point => point.starters.toString()))
+  }
+
+  // Create dataset for each active scenario
+  activeScenarios.value.forEach((scenario) => {
+    const scenarioData = generateScenarioData(localDeckSize.value, localHandSize.value, scenario)
+    const probabilityData = scenarioData.map(point => point.probability)
+    
+    datasets.push({
+      label: scenario.label,
+      data: probabilityData,
+      borderColor: scenario.color,
+      backgroundColor: `${scenario.color}20`, // Add transparency
+      fill: false, // Don't fill multiple lines to avoid visual clutter
+      tension: 0.4,
+      pointBackgroundColor: scenario.color,
+      pointBorderColor: '#ffffff',
+      pointBorderWidth: 2,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      yAxisID: 'y'
+    })
+  })
+  
   return {
-    labels,
-    datasets: [
-      {
-        label: 'Probabilidade de Abrir (%)',
-        data: probabilityData,
-        borderColor: isDark ? '#34d399' : '#10b981',
-        backgroundColor: isDark ? '#34d39920' : '#10b98120',
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: isDark ? '#34d399' : '#10b981',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        yAxisID: 'y'
-      },
-      {
-        label: 'Ganho Marginal (%)',
-        data: [null, ...marginalGains], // Add null for first point to align with labels
-        borderColor: isDark ? '#94a3b8' : '#64748b',
-        backgroundColor: 'transparent',
-        fill: false,
-        tension: 0.3,
-        pointBackgroundColor: isDark ? '#94a3b8' : '#64748b',
-        pointBorderColor: isDark ? '#94a3b8' : '#64748b',
-        pointBorderWidth: 1,
-        pointRadius: 3,
-        pointHoverRadius: 5,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        yAxisID: 'y1'
-      }
-    ]
+    labels: allLabels,
+    datasets
   }
 }
 
@@ -163,6 +532,13 @@ const getChartOptions = () => {
   
   return {
     responsive: true,
+    animation: {
+        duration: 0
+    },
+    hover: {
+        animationDuration: 0
+    },
+    responsiveAnimationDuration: 0,
     maintainAspectRatio: false,
     plugins: {
       legend: {
@@ -188,13 +564,10 @@ const getChartOptions = () => {
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          title: (context: any) => `${context[0].label} starters`,
+          title: (context: any) => `${context[0].label} ${chartTitle.value?.toLowerCase() || 'cards'}`,
           label: (context: any) => {
             const datasetLabel = context.dataset.label
             const value = context.parsed.y
-            if (datasetLabel === 'Ganho Marginal (%)') {
-              return value !== null ? `${datasetLabel}: +${value}%` : `${datasetLabel}: N/A`
-            }
             return `${datasetLabel}: ${value}%`
           }
         }
@@ -204,7 +577,7 @@ const getChartOptions = () => {
       x: {
         title: {
           display: true,
-          text: 'Número de Starters no Deck',
+          text: `Number of ${chartTitle.value || 'Cards'} in Deck`,
           color: isDark ? '#d1d5db' : '#6b7280',
           font: {
             size: 12,
@@ -224,7 +597,7 @@ const getChartOptions = () => {
         position: 'left' as const,
         title: {
           display: true,
-          text: 'Probabilidade de Abrir (%)',
+          text: 'Opening Hand Probability (%)',
           color: isDark ? '#34d399' : '#10b981',
           font: {
             size: 12,
@@ -240,29 +613,6 @@ const getChartOptions = () => {
           color: isDark ? '#34d399' : '#10b981',
           callback: (value: any) => `${value}%`
         }
-      },
-      y1: {
-        type: 'linear' as const,
-        display: true,
-        position: 'right' as const,
-        title: {
-          display: true,
-          text: 'Ganho Marginal (%)',
-          color: isDark ? '#94a3b8' : '#64748b',
-          font: {
-            size: 12,
-            weight: 'bold'
-          }
-        },
-        min: 0,
-        max: 15, // Adjust based on actual marginal gain values
-        grid: {
-          drawOnChartArea: false, // Don't draw grid lines for right axis
-        },
-        ticks: {
-          color: isDark ? '#94a3b8' : '#64748b',
-          callback: (value: any) => `+${value}%`
-        }
       }
     },
     interaction: {
@@ -274,91 +624,129 @@ const getChartOptions = () => {
 
 // Chart management
 const createChart = () => {
-  if (!chartCanvas.value) {
-    console.error('Chart canvas not available')
+  if (!chartCanvas.value || !chartCanvas.value.isConnected) {
     return
   }
 
-  if (isInitialized.value) {
-    console.log('Chart already initialized, skipping')
-    return
-  }
-
-  console.log('Creating chart with data:', starterOpeningData.length, 'points')
-  //console.log('Chart data:', getChartData())
-
-  // Destroy existing chart and clear canvas
+  // Destroy existing chart if it exists
   if (chartInstance.value) {
-    console.log('Destroying existing chart')
     chartInstance.value.destroy()
     chartInstance.value = undefined
   }
 
-  // Clear any existing chart from this canvas
-  const existingChart = Chart.getChart(chartCanvas.value)
-  if (existingChart) {
-    console.log('Found existing chart on canvas, destroying it')
-    existingChart.destroy()
+  const config: ChartConfiguration<'line'> = {
+    type: 'line',
+    data: getChartData(),
+    options: getChartOptions()
   }
 
-  try {
-    const config: ChartConfiguration<'line'> = {
-      type: 'line',
-      data: getChartData(),
-      options: getChartOptions()
-    }
-
-    chartInstance.value = new Chart(chartCanvas.value, config)
-    isInitialized.value = true
-    isLoading.value = false
-    console.log('Chart created successfully')
-  } catch (error) {
-    console.error('Error creating chart:', error)
-  }
+  chartInstance.value = new Chart(chartCanvas.value, config)
+  isInitialized.value = true
+  isLoading.value = false
 }
 
 const updateChart = () => {
-  if (!chartInstance.value || !isInitialized.value || !chartCanvas.value) {
-    return // Don't create chart here to avoid infinite loops
+  if (!isInitialized.value || !chartCanvas.value) {
+    return
   }
-
-  console.log('Updating chart with new theme')
+  
   isLoading.value = true
   
-  try {
-    // Safely destroy the chart
+  // Destroy and recreate chart with new data
+  if (chartInstance.value) {
     chartInstance.value.destroy()
     chartInstance.value = undefined
-    
-    // Wait a moment before recreating to ensure cleanup is complete
-    setTimeout(() => {
-      if (chartCanvas.value && isInitialized.value) {
-        const config: ChartConfiguration<'line'> = {
-          type: 'line',
-          data: getChartData(),
-          options: getChartOptions()
-        }
-        
-        chartInstance.value = new Chart(chartCanvas.value, config)
-        isLoading.value = false
-      }
-    }, 50)
-  } catch (error) {
-    console.error('Error updating chart:', error)
-    isLoading.value = false
   }
+
+  const config: ChartConfiguration<'line'> = {
+    type: 'line',
+    data: getChartData(),
+    options: getChartOptions()
+  }
+  
+  chartInstance.value = new Chart(chartCanvas.value, config)
+  isLoading.value = false
 }
+
 
 // Simple theme handling without reactivity
 let themeObserver: MutationObserver | null = null
 let themeChangeTimeout: NodeJS.Timeout | null = null
-let isUpdating = ref(false)
+
+// Watchers for configuration changes
+let recalculationTimeout: NodeJS.Timeout | null = null
+let scenarioTimeout: NodeJS.Timeout | null = null
+let titleTimeout: NodeJS.Timeout | null = null
+
+// Debounced recalculation for input changes
+watch([localDeckSize, localHandSize], () => {
+  if (!isInitialized.value) return
+  
+  if (recalculationTimeout) {
+    clearTimeout(recalculationTimeout)
+  }
+  
+  recalculationTimeout = setTimeout(() => {
+    if (isInitialized.value) {
+      updateChart()
+    }
+  }, 500)
+}, { deep: true })
+
+// Watch for scenario changes
+watch(activeScenarios, (newScenarios, oldScenarios) => {
+  if (!isInitialized.value || !oldScenarios || oldScenarios.length === 0) {
+    return
+  }
+  
+  if (scenarioTimeout) {
+    clearTimeout(scenarioTimeout)
+  }
+  
+  scenarioTimeout = setTimeout(() => {
+    if (isInitialized.value) {
+      updateChart()
+    }
+  }, 200)
+}, { deep: true })
+
+// Watch for chart title changes
+watch(chartTitle, () => {
+  if (!isInitialized.value) return
+  
+  if (titleTimeout) {
+    clearTimeout(titleTimeout)
+  }
+  
+  // Update scenario labels immediately for better UX
+  activeScenarios.value.forEach(scenario => {
+    scenario.label = createScenarioLabel(scenario)
+  })
+  
+  titleTimeout = setTimeout(() => {
+    if (isInitialized.value) {
+      updateChart()
+    }
+  }, 1000)
+})
+
+// Initialize default scenario without triggering watchers
+const initializeDefaultScenario = () => {
+  // Add default "at least 1" scenario
+  const defaultScenario: Scenario = {
+    id: generateScenarioId(),
+    type: 'atLeast',
+    value: 1,
+    color: getNextColor(),
+    label: `At least 1 ${chartTitle.value?.toLowerCase() || 'card'}`
+  }
+  
+  // Use silent assignment to avoid triggering watchers during initialization
+  activeScenarios.value = [defaultScenario]
+}
 
 // Lifecycle
 onMounted(() => {
-  console.log('StarterOpeningChart mounted')
-  console.log('Starter data loaded:', starterOpeningData.length, 'points')
-  console.log('First data point:', starterOpeningData[0])
   
   // Setup debounced theme observer that recreates chart
   if (typeof window !== 'undefined' && document.documentElement) {
@@ -370,20 +758,8 @@ onMounted(() => {
       
       // Debounce theme changes to prevent rapid updates
       themeChangeTimeout = setTimeout(() => {
-        if (isInitialized.value && chartInstance.value && !isUpdating.value) {
-          console.log('Theme changed, recreating chart')
-          isUpdating.value = true
-          
-          try {
-            updateChart()
-          } catch (error) {
-            console.error('Error updating chart theme:', error)
-          } finally {
-            // Reset updating flag after a delay
-            setTimeout(() => {
-              isUpdating.value = false
-            }, 200)
-          }
+        if (isInitialized.value && chartInstance.value) {
+          updateChart()
         }
       }, 150)
     })
@@ -396,20 +772,24 @@ onMounted(() => {
   
   nextTick(() => {
     setTimeout(() => {
-      console.log('Canvas element:', chartCanvas.value)
+      // First initialize default scenario (silently)
+      initializeDefaultScenario()
+      
+      // Then create the chart (this will read the scenarios)
       createChart()
     }, 100)
   })
 })
 
 onUnmounted(() => {
-  console.log('StarterOpeningChart unmounting')
+  // Set flags to prevent any ongoing operations
+  isInitialized.value = false
   
-  // Clear any pending theme changes
-  if (themeChangeTimeout) {
-    clearTimeout(themeChangeTimeout)
-    themeChangeTimeout = null
-  }
+  // Clear all pending timeouts
+  if (themeChangeTimeout) clearTimeout(themeChangeTimeout)
+  if (recalculationTimeout) clearTimeout(recalculationTimeout)
+  if (scenarioTimeout) clearTimeout(scenarioTimeout)
+  if (titleTimeout) clearTimeout(titleTimeout)
   
   // Disconnect theme observer
   if (themeObserver) {
@@ -419,16 +799,9 @@ onUnmounted(() => {
   
   // Destroy chart
   if (chartInstance.value) {
-    try {
-      chartInstance.value.destroy()
-    } catch (error) {
-      console.error('Error destroying chart:', error)
-    }
+    chartInstance.value.destroy()
     chartInstance.value = undefined
   }
-  
-  isInitialized.value = false
-  isUpdating.value = false
 })
 </script>
 
