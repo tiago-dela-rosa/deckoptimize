@@ -1,10 +1,22 @@
 {
   "header": {
     "title": "Deck Optimize",
+    "nav": {
+      "calculator": "Calculadora",
+      "charts": "Gráficos"
+    },
     "darkMode": {
       "switchToLight": "Mudar para modo claro",
       "switchToDark": "Mudar para modo escuro"
     }
+  },
+  "footer": {
+    "description": "Otimize as composições do seu deck de jogos de cartas colecionáveis com cálculos de probabilidade",
+    "inspiredBy": "Inspirado em yugioh.party",
+    "chartsInspiredBy": "Gráficos inspirados em Jesse Perez Strategy Gaming",
+    "madeWith": "Feito com",
+    "forCommunity": "para a comunidade TCG",
+    "allRightsReserved": "Todos os direitos reservados"
   },
   "deckConfig": {
     "title": "Configuração do Deck",

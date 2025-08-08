@@ -281,6 +281,14 @@ const isDarkMode = () => {
   return false
 }
 
+// Mobile detection helper
+const isMobileScreen = () => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth <= 768
+  }
+  return false
+}
+
 // Dynamic probability calculation functions
 const hypergeometric = (N: number, K: number, n: number, k: number): number => {
   const combination = (n: number, r: number): number => {
@@ -423,6 +431,30 @@ const addScenario = (value: number) => {
   
   newScenario.label = createScenarioLabel(newScenario)
   activeScenarios.value.push(newScenario)
+  
+  // Track Quick Select event
+  trackQuickSelect(value)
+}
+
+const trackQuickSelect = (quickSelectValue: number) => {
+  if (typeof umTrackEvent === 'function') {
+    // Collect comprehensive data for the event
+    const eventData = {
+      cardTypeName: chartTitle.value || 'Starters',
+      cardsInDeck: localDeckSize.value,
+      handSize: localHandSize.value,
+      probabilityScenarios: activeScenarios.value.map(scenario => ({
+        type: scenario.type,
+        value: scenario.value,
+        minValue: scenario.minValue,
+        maxValue: scenario.maxValue,
+      })),
+      quickSelectValue: quickSelectValue,
+      scenarioMode: scenarioMode.value
+    }
+    
+    umTrackEvent('chart_quick_select', JSON.stringify(eventData))
+  }
 }
 
 const addBetweenScenario = () => {
@@ -448,12 +480,53 @@ const addBetweenScenario = () => {
   
   newScenario.label = createScenarioLabel(newScenario)
   activeScenarios.value.push(newScenario)
+  
+  // Track Between scenario addition (similar to Quick Select)
+  trackBetweenScenarioAdded(betweenMin.value, betweenMax.value)
+}
+
+const trackBetweenScenarioAdded = (minValue: number, maxValue: number) => {
+  if (typeof umTrackEvent === 'function') {
+    const eventData = {
+      cardTypeName: chartTitle.value || 'Starters',
+      cardsInDeck: localDeckSize.value,
+      handSize: localHandSize.value,
+      probabilityScenarios: activeScenarios.value.map(scenario => ({
+        type: scenario.type,
+        value: scenario.value,
+        minValue: scenario.minValue,
+        maxValue: scenario.maxValue,
+      })),
+      quickSelectValue: `between-${minValue}-${maxValue}`,
+      scenarioMode: 'between'
+    }
+    
+    umTrackEvent('chart_quick_select', JSON.stringify(eventData))
+  }
 }
 
 const removeScenario = (scenarioId: string) => {
   const index = activeScenarios.value.findIndex(s => s.id === scenarioId)
   if (index !== -1) {
+    const scenarioToRemove = activeScenarios.value[index]
+    
+    // Track Active Line deletion event before removing
+    trackActiveLineDeleted(scenarioToRemove)
+    
     activeScenarios.value.splice(index, 1)
+  }
+}
+
+const trackActiveLineDeleted = (deletedScenario: Scenario) => {
+  if (typeof umTrackEvent === 'function') {
+    const eventData = {
+      type: deletedScenario.type,
+      value: deletedScenario.value,
+      minValue: deletedScenario.minValue,
+      maxValue: deletedScenario.maxValue,
+    }
+    
+    umTrackEvent('chart_active_line_deleted', JSON.stringify(eventData))
   }
 }
 
@@ -533,6 +606,7 @@ const getChartData = () => {
 
 const getChartOptions = () => {
   const isDark = isDarkMode()
+  const isMobile = isMobileScreen()
   
   return {
     responsive: true,
@@ -597,7 +671,12 @@ const getChartOptions = () => {
           color: isDark ? '#374151' : '#f3f4f6'
         },
         ticks: {
-          color: isDark ? '#d1d5db' : '#6b7280'
+          color: isDark ? '#d1d5db' : '#6b7280',
+          autoSkip: false,        // Don't skip ticks automatically
+          maxRotation: isMobile ? 45 : 0,  // Rotate labels on mobile for better fit
+          minRotation: isMobile ? 45 : 0,  // Consistent rotation on mobile
+          stepSize: 1,            // Force step size of 1 to show all values
+          callback: (value: any) => value.toString() // Ensure all values are shown as strings
         }
       },
       y: {
@@ -681,6 +760,11 @@ const updateChart = () => {
 // Simple theme handling without reactivity
 let themeObserver: MutationObserver | null = null
 let themeChangeTimeout: NodeJS.Timeout | null = null
+
+// Resize handling for mobile/desktop responsiveness
+let resizeTimeout: NodeJS.Timeout | null = null
+let currentScreenType: 'mobile' | 'desktop' | null = null
+let handleResize: (() => void) | null = null
 
 // Watchers for configuration changes
 let recalculationTimeout: NodeJS.Timeout | null = null
@@ -782,6 +866,35 @@ onMounted(() => {
     })
   }
   
+  // Setup resize listener for mobile/desktop changes
+  if (typeof window !== 'undefined') {
+    handleResize = () => {
+      // Clear any pending resize handling
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+      
+      // Check if screen type changed
+      const newScreenType = isMobileScreen() ? 'mobile' : 'desktop'
+      
+      // Only update if screen type changed and chart is initialized
+      if (newScreenType !== currentScreenType && isInitialized.value && chartInstance.value) {
+        currentScreenType = newScreenType
+        
+        // Debounce resize updates to prevent rapid chart recreations
+        resizeTimeout = setTimeout(() => {
+          updateChart()
+        }, 250)
+      } else if (currentScreenType === null) {
+        // Initialize current screen type
+        currentScreenType = newScreenType
+      }
+    }
+    
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
+  }
+  
   nextTick(() => {
     setTimeout(() => {
       // First initialize default scenario (silently)
@@ -802,11 +915,19 @@ onUnmounted(() => {
   if (recalculationTimeout) clearTimeout(recalculationTimeout)
   if (scenarioTimeout) clearTimeout(scenarioTimeout)
   if (titleTimeout) clearTimeout(titleTimeout)
+  if (resizeTimeout) clearTimeout(resizeTimeout)
   
   // Disconnect theme observer
   if (themeObserver) {
     themeObserver.disconnect()
     themeObserver = null
+  }
+  
+  // Remove resize listeners
+  if (typeof window !== 'undefined' && handleResize) {
+    window.removeEventListener('resize', handleResize)
+    window.removeEventListener('orientationchange', handleResize)
+    handleResize = null
   }
   
   // Destroy chart

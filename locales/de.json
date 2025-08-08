@@ -1,10 +1,22 @@
 {
   "header": {
     "title": "Deck Optimize",
+    "nav": {
+      "calculator": "Rechner",
+      "charts": "Diagramme"
+    },
     "darkMode": {
       "switchToLight": "Zu hellem Modus wechseln",
       "switchToDark": "Zu dunklem Modus wechseln"
     }
+  },
+  "footer": {
+    "description": "Optimieren Sie Ihre Sammelkartenspiel-Deck-Zusammensetzungen mit Wahrscheinlichkeitsberechnungen",
+    "inspiredBy": "Inspiriert von yugioh.party",
+    "chartsInspiredBy": "Diagramme inspiriert von Jesse Perez Strategy Gaming",
+    "madeWith": "Gemacht mit",
+    "forCommunity": "für die TCG-Community",
+    "allRightsReserved": "Alle Rechte vorbehalten"
   },
   "deckConfig": {
     "title": "Deck-Konfiguration",

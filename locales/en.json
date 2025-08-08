@@ -1,10 +1,22 @@
 {
   "header": {
     "title": "Deck Optimize",
+    "nav": {
+      "calculator": "Calculator",
+      "charts": "Charts"
+    },
     "darkMode": {
       "switchToLight": "Switch to light mode",
       "switchToDark": "Switch to dark mode"
     }
+  },
+  "footer": {
+    "description": "Optimize your trading card game deck compositions with probability calculations",
+    "inspiredBy": "Inspired by yugioh.party",
+    "chartsInspiredBy": "Charts inspired by Jesse Perez Strategy Gaming",
+    "madeWith": "Made with",
+    "forCommunity": "for the TCG community",
+    "allRightsReserved": "All rights reserved"
   },
   "deckConfig": {
     "title": "Deck Configuration",
