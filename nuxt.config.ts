@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     useDirective: true,
     logErrors: true,        
     // Allow localhost for testing
-    ignoreLocalhost: true,
+    ignoreLocalhost: false,
     enableTracker: true,
   },
   

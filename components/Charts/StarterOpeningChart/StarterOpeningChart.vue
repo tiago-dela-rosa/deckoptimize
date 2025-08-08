@@ -423,6 +423,30 @@ const addScenario = (value: number) => {
   
   newScenario.label = createScenarioLabel(newScenario)
   activeScenarios.value.push(newScenario)
+  
+  // Track Quick Select event
+  trackQuickSelect(value)
+}
+
+const trackQuickSelect = (quickSelectValue: number) => {
+  if (typeof umTrackEvent === 'function') {
+    // Collect comprehensive data for the event
+    const eventData = {
+      cardTypeName: chartTitle.value || 'Starters',
+      cardsInDeck: localDeckSize.value,
+      handSize: localHandSize.value,
+      probabilityScenarios: activeScenarios.value.map(scenario => ({
+        type: scenario.type,
+        value: scenario.value,
+        minValue: scenario.minValue,
+        maxValue: scenario.maxValue,
+      })),
+      quickSelectValue: quickSelectValue,
+      scenarioMode: scenarioMode.value
+    }
+    
+    umTrackEvent('chart_quick_select', JSON.stringify(eventData))
+  }
 }
 
 const addBetweenScenario = () => {
@@ -448,12 +472,53 @@ const addBetweenScenario = () => {
   
   newScenario.label = createScenarioLabel(newScenario)
   activeScenarios.value.push(newScenario)
+  
+  // Track Between scenario addition (similar to Quick Select)
+  trackBetweenScenarioAdded(betweenMin.value, betweenMax.value)
+}
+
+const trackBetweenScenarioAdded = (minValue: number, maxValue: number) => {
+  if (typeof umTrackEvent === 'function') {
+    const eventData = {
+      cardTypeName: chartTitle.value || 'Starters',
+      cardsInDeck: localDeckSize.value,
+      handSize: localHandSize.value,
+      probabilityScenarios: activeScenarios.value.map(scenario => ({
+        type: scenario.type,
+        value: scenario.value,
+        minValue: scenario.minValue,
+        maxValue: scenario.maxValue,
+      })),
+      quickSelectValue: `between-${minValue}-${maxValue}`,
+      scenarioMode: 'between'
+    }
+    
+    umTrackEvent('chart_quick_select', JSON.stringify(eventData))
+  }
 }
 
 const removeScenario = (scenarioId: string) => {
   const index = activeScenarios.value.findIndex(s => s.id === scenarioId)
   if (index !== -1) {
+    const scenarioToRemove = activeScenarios.value[index]
+    
+    // Track Active Line deletion event before removing
+    trackActiveLineDeleted(scenarioToRemove)
+    
     activeScenarios.value.splice(index, 1)
+  }
+}
+
+const trackActiveLineDeleted = (deletedScenario: Scenario) => {
+  if (typeof umTrackEvent === 'function') {
+    const eventData = {
+      type: deletedScenario.type,
+      value: deletedScenario.value,
+      minValue: deletedScenario.minValue,
+      maxValue: deletedScenario.maxValue,
+    }
+    
+    umTrackEvent('chart_active_line_deleted', JSON.stringify(eventData))
   }
 }
 
